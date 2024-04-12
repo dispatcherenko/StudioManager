@@ -93,6 +93,10 @@ public partial class PostgresContext : DbContext
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'Employee'::character varying")
                 .HasColumnName("employeeposition");
+            entity.Property(e => e.Employeesex)
+                .HasConversion<string>()
+                .HasColumnType("sex")
+                .HasColumnName("employeesex");
             entity.Property(e => e.IdDepartment).HasColumnName("id_department");
 
             entity.HasOne(d => d.IdDepartmentNavigation).WithMany(p => p.Staff)

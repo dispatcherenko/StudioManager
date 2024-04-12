@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Staff
+public partial class Staff : ObservableObject
 {
     public int IdEmployee { get; set; }
 
@@ -19,5 +20,13 @@ public partial class Staff
 
     public byte[]? Employeephoto { get; set; }
 
+    public Sex Employeesex { get; set; }
+
     public virtual Department? IdDepartmentNavigation { get; set; }
+}
+
+public enum Sex
+{
+    М,
+    Ж
 }

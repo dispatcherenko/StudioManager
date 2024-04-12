@@ -4,78 +4,108 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudioManager"
+        xmlns:uc="clr-namespace:StudioManager.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Studio Manager" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style TargetType="Image">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Margin" Value="0 0 5 0"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" 
-                   Margin="5"
-                   FontSize="20" FontFamily="Bahnschrift">
-            Studio Manager
-        </TextBlock>
+        <Grid Grid.Column="1" Background="#FFE2E2E2"/>
 
-        <ListBox Grid.Column="0" Grid.Row="1">
-            <ListBoxItem IsSelected="True">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/staff.png" 
-                           Width="15"
-                           Margin="3"/>
-                    <TextBlock>Staff</TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/departments.png" 
-                           Width="15"
-                           Margin="3"/>
-                    <TextBlock>Departments</TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/tasks.png" 
-                           Width="15"
-                           Margin="3"/>
-                    <TextBlock>Tasks</TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/games.png" 
-                           Width="15"
-                           Margin="3"/>
-                    <TextBlock>Games</TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-            <ListBoxItem>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Assets/users.png" 
-                           Width="15"
-                           Margin="3"/>
-                    <TextBlock>Users</TextBlock>
-                </StackPanel>
-            </ListBoxItem>
-        </ListBox>
-        
-        <DataGrid Grid.Column="1" Grid.Row="1" 
-                  ItemsSource="{Binding StaffList}" 
-                  AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding IdEmployee}" Foreground="Black"/>
-                <DataGridTextColumn Header="Department ID" Binding="{Binding IdDepartment}"/>
-                <DataGridTextColumn Header="Full Name" Binding="{Binding Employeefullname}"/>
-                <DataGridTextColumn Header="Phone Number" Binding="{Binding Employeephonenumber}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Employeeemail}"/>
-                <DataGridTextColumn Header="Position" Binding="{Binding Employeeposition}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="2" Background="#FFE2E2E2"/>
+
+            <StackPanel Grid.Column="0" Grid.Row="0" 
+           Margin="5"
+           Orientation="Horizontal">
+                <TextBlock FontSize="24" FontWeight="Bold">
+        Studio Manager
+                </TextBlock>
+                <Image Margin="5 0 0 0" Height="35" Width="35" Source="/Assets/manager.png"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="0 5 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="1" 
+                       Source="/Assets/search.png"
+                       Height="25"
+                       Margin="-40,0,0,0" Panel.ZIndex="01"/>
+                <TextBox Grid.Column="0" 
+                         Width="Auto" 
+                         VerticalAlignment="Center" 
+                         Padding="5" 
+
+                         Margin="5 0 5 0">
+                </TextBox>
+            </Grid>
+
+            <ListBox Grid.Column="0" Grid.Row="3" BorderBrush="White">
+                <ListBoxItem IsSelected="True">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/staff.png"/>
+                        <TextBlock>Персонал</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/departments.png" />
+                        <TextBlock>Отделы</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/tasks.png" />
+                        <TextBlock>Таски</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/games.png" />
+                        <TextBlock>Продукты</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/users.png" />
+                        <TextBlock>Пользователи</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <uc:StaffControl 
+                Width="Auto" 
+                Height="Auto" 
+                DataContext="{Binding}"/>
+        </Grid>
     </Grid>
 </Window>
