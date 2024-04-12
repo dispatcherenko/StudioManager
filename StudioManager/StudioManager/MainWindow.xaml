@@ -7,9 +7,69 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding StaffList}" AutoGenerateColumns="False" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" 
+                   Margin="5"
+                   FontSize="20" FontFamily="Bahnschrift">
+            Studio Manager
+        </TextBlock>
+
+        <ListBox Grid.Column="0" Grid.Row="1">
+            <ListBoxItem IsSelected="True">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/staff.png" 
+                           Width="15"
+                           Margin="3"/>
+                    <TextBlock>Staff</TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/departments.png" 
+                           Width="15"
+                           Margin="3"/>
+                    <TextBlock>Departments</TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/tasks.png" 
+                           Width="15"
+                           Margin="3"/>
+                    <TextBlock>Tasks</TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/games.png" 
+                           Width="15"
+                           Margin="3"/>
+                    <TextBlock>Games</TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/users.png" 
+                           Width="15"
+                           Margin="3"/>
+                    <TextBlock>Users</TextBlock>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+        
+        <DataGrid Grid.Column="1" Grid.Row="1" 
+                  ItemsSource="{Binding StaffList}" 
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding IdEmployee}"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdEmployee}" Foreground="Black"/>
                 <DataGridTextColumn Header="Department ID" Binding="{Binding IdDepartment}"/>
                 <DataGridTextColumn Header="Full Name" Binding="{Binding Employeefullname}"/>
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding Employeephonenumber}"/>

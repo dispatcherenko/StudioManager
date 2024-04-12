@@ -9,6 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\departments.png" />
+    <None Remove="Assets\games.png" />
+    <None Remove="Assets\staff.png" />
+    <None Remove="Assets\tasks.png" />
+    <None Remove="Assets\users.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\users.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\tasks.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
@@ -16,6 +32,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\departments.png" />
+    <Resource Include="Assets\games.png" />
+    <Resource Include="Assets\staff.png" />
   </ItemGroup>
 
 </Project>
