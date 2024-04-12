@@ -1,26 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Staff : ObservableObject
+public partial class Staff : ObservableValidator
 {
-    public int IdEmployee { get; set; }
+    [ObservableProperty]
+    private int _idEmployee;
+    [ObservableProperty]
+    private int? _idDepartment;
+    private string _employeefullname = null!;
+    private string _employeephonenumber = null!;
+    private string _employeeemail = null!;
+    private string _employeeposition = null!;
+    [ObservableProperty]
+    private byte[]? _employeephoto;
+    private Sex _employeesex;
 
-    public int? IdDepartment { get; set; }
+    [Required]
+    [NotNull]
+    [MaxLength(64)]
+    [MinLength(2)]
+    public string Employeefullname
+    {
+        get => _employeefullname;
+        set => SetProperty(ref _employeefullname, value, true);
+    }
 
-    public string Employeefullname { get; set; } = null!;
+    [Required]
+    [NotNull]
+    [Phone]
+    public string Employeephonenumber
+    {
+        get => _employeephonenumber;
+        set => SetProperty(ref _employeephonenumber, value, true);
+    }
 
-    public string Employeephonenumber { get; set; } = null!;
+    [Required]
+    [NotNull]
+    [EmailAddress]
+    public string Employeeemail
+    {
+        get => _employeeemail;
+        set => SetProperty(ref _employeeemail, value, true);
+    }
 
-    public string Employeeemail { get; set; } = null!;
+    [Required]  
+    [MaxLength(64)]
+    [MinLength(2)]
+    public string Employeeposition
+    {
+        get => _employeeposition;
+        set => SetProperty(ref _employeeposition, value, true);
+    }
 
-    public string Employeeposition { get; set; } = null!;
-
-    public byte[]? Employeephoto { get; set; }
-
-    public Sex Employeesex { get; set; }
+    [Required]
+    public Sex Employeesex
+    {
+        get => _employeesex;
+        set => SetProperty(ref _employeesex, value, true);
+    }
 
     public virtual Department? IdDepartmentNavigation { get; set; }
 }

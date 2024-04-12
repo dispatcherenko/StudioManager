@@ -42,7 +42,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">Полное имя:</TextBlock>
                 <TextBox Grid.Column="1"
-                         DataContext="{Binding NewStaff.Employeefullname, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Selected.Employeefullname, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=TwoWay}"/>     
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -51,7 +53,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">Номер телефона:</TextBlock>
                 <TextBox Grid.Column="1"
-                         DataContext="{Binding NewStaff.Employeephonenumber, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Selected.Employeephonenumber, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=TwoWay}"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -60,7 +64,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">Email:</TextBlock>
                 <TextBox Grid.Column="1"
-                         DataContext="{Binding NewStaff.Employeeemail, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Selected.Employeeemail, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=TwoWay}"/>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -69,7 +75,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">Должность:</TextBlock>
                 <TextBox Grid.Column="1"
-                         DataContext="{Binding NewStaff.Employeeposition, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Selected.Employeeposition, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=TwoWay}"/>
             </Grid>
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
@@ -78,7 +86,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">ID Отдела:</TextBlock>
                 <TextBox Grid.Column="1"
-                         DataContext="{Binding NewStaff.IdDepartment, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Selected.IdDepartment, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Mode=TwoWay}"/>
             </Grid>
             <Grid Grid.Row="5" Margin="0 5">
                 <Grid.ColumnDefinitions>
@@ -89,12 +99,16 @@
                 <StackPanel Grid.Column="1">
                     <RadioButton BorderThickness="1,1,1,2"
                                  GroupName="Sex" 
-                                 Content="Male"
-                                 Margin="5"/>
+                                 Content="М"
+                                 Margin="5"
+                                 Command="{Binding RadioButtonCommand}"
+                                 CommandParameter="М"/>
                     <RadioButton BorderThickness="1,1,1,2"
                                  GroupName="Sex" 
-                                 Content="Female"
-                                 Margin="5"/>
+                                 Content="Ж"
+                                 Margin="5"
+                                 Command="{Binding RadioButtonCommand}"
+                                 CommandParameter="Ж"/>
                 </StackPanel>
             </Grid>
         </Grid>
@@ -131,9 +145,17 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
-            <Button Grid.Column="0">Сохранить</Button>
-            <Button Grid.Column="1">Выйти</Button>
+
+            <Button Grid.Column="0"
+                    Command="{Binding SaveNewCommand}"
+                    IsEnabled="{Binding IsValid, 
+                                UpdateSourceTrigger=PropertyChanged}">
+                Сохранить
+            </Button>
+            <Button Grid.Column="1"
+                    Command="{Binding ExitCommand}">
+                Выйти
+            </Button>
         </Grid>
     </Grid>
 </Window>

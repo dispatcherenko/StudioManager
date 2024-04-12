@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows;
 using StudioManager.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace StudioManager
 {

@@ -28,27 +28,31 @@
             </Grid.ColumnDefinitions>
             <Button Name="Add" 
                     Grid.Column="0"
-                    Command="{Binding Staff.AddCommand}">
+                    Command="{Binding Staff.AddCommand}"
+                    IsEnabled="{Binding Staff.CanAdd, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/add.png"/>
             </Button>
             <Button Name="Remove" 
                     Grid.Column="1"
-                    Command="{Binding Staff.RemoveCommand}">
+                    Command="{Binding Staff.RemoveCommand}"
+                    IsEnabled="{Binding Staff.CanRemove, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/remove.png"/>
             </Button>
             <Button Name="Edit" 
                     Grid.Column="2"
-                    Command="{Binding Staff.EditCommand}">
+                    Command="{Binding Staff.EditCommand}"
+                    IsEnabled="{Binding Staff.CanEdit, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/edit.png"/>
             </Button>
             <Button Name="Save" 
                     Grid.Column="3"
-                    Command="{Binding Staff.SaveCommand}">
+                    Command="{Binding Staff.SaveCommand}"
+                    IsEnabled="{Binding Staff.CanSaveDb, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/save.png"/>
             </Button>
         </Grid>
         <DataGrid Grid.Row="2" Margin="0 2 0 0"
-                  ItemsSource="{Binding Staff.List}" 
+                  ItemsSource="{Binding Staff.StaffList}" 
                   AutoGenerateColumns="False" 
                   BorderBrush="White" 
                   Background="White"
@@ -62,13 +66,34 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding IdEmployee}" Width="Auto"/>
-                <DataGridTextColumn Header="ID Отдела" Binding="{Binding IdDepartment}"  Width="Auto"/>
-                <DataGridTextColumn Header="Полное имя" Binding="{Binding Employeefullname}"  Width="*"/>
-                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Employeephonenumber}"  Width="*"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Employeeemail}"  Width="*"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding Employeeposition}"  Width="*"/>
-                <DataGridTextColumn Header="Пол" Binding="{Binding Employeesex}"  Width="*"/>
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding IdEmployee}" 
+                                    Width="Auto" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="ID Отдела" 
+                                    Binding="{Binding IdDepartment}"  
+                                    Width="Auto" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Полное имя" 
+                                    Binding="{Binding Employeefullname}"  
+                                    Width="*" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Номер телефона" 
+                                    Binding="{Binding Employeephonenumber}"  
+                                    Width="*" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Email" 
+                                    Binding="{Binding Employeeemail}"  
+                                    Width="*" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Должность" 
+                                    Binding="{Binding Employeeposition}"  
+                                    Width="*" 
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Пол" 
+                                    Binding="{Binding Employeesex}"  
+                                    Width="*" 
+                                    IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
