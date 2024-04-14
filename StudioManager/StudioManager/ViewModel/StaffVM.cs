@@ -2,10 +2,13 @@
 using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using StudioManager.Model;
 using StudioManager.UserWindows;
 
@@ -47,6 +50,9 @@ namespace StudioManager.ViewModel
         }
 
         [ObservableProperty]
+        private byte[] _photo;
+
+        [ObservableProperty]
         private bool _canAdd = true;
         [ObservableProperty]
         private bool _canEdit  = false;
@@ -63,6 +69,7 @@ namespace StudioManager.ViewModel
         public StaffVM()
         {
             LoadStaffList();
+            Photo = ConvertPathToByte("Assets/placeholder.png");
         }
 
         private void LoadStaffList()
@@ -87,6 +94,11 @@ namespace StudioManager.ViewModel
                 CanRemove = CanEdit = false;
             }
             return staff;
+        }
+
+        public byte[] ConvertPathToByte(string path)
+        {
+            return File.ReadAllBytes(path);
         }
 
         [RelayCommand]
@@ -125,6 +137,8 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void SaveNew()
         {
+            Selected.Employeephoto = Photo;
+
             if (IsValid)
             {
                 if (IsEditing)
@@ -158,7 +172,18 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void SetImage()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image Files (*.jpg; *.jpeg; *.png; *.gif)|*.jpg; *.jpeg; *.png; *.gif",
+                Title = "Выберите изображение"
+            };
 
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                Photo = ConvertPathToByte(filePath);
+            }
         }
 
         [RelayCommand]

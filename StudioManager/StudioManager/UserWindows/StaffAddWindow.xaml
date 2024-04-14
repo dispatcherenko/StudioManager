@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:local="clr-namespace:StudioManager.UserWindows"
+        xmlns:converter="clr-namespace:StudioManager.Converters"
         mc:Ignorable="d"
         Title="Add Employee" Height="350" Width="670" ResizeMode="NoResize">
     <Window.Resources>
@@ -13,6 +14,7 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <converter:ByteArrayConverter x:Key="BATISConverter" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -121,23 +123,17 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0">Фото:</TextBlock>
             <Image Grid.Row="1" 
-                   Source="/Assets/placeholder.png"
+                   Source="{Binding Photo, Converter={StaticResource BATISConverter}}"
                    Width="150"
                    Height="150"
                    VerticalAlignment="Top"
-                   Margin="10 10 10 0"/>
-            <Grid Grid.Row="2" Margin="0 3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBox Grid.Column="0"/>
-
-                <Button Grid.Column="1">
-                    ...
-                </Button>
-            </Grid>
+                   Margin="10 10 10 10"/>
+            
+            <Button Grid.Row="2"
+                    Command="{Binding SetImageCommand}"
+                    Margin="10 10 10 10">
+                Выбрать изображение...
+            </Button>
         </Grid>
 
         <Grid Grid.Column="1" Grid.Row="1">

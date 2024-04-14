@@ -16,7 +16,6 @@
     <None Remove="Assets\departments.png" />
     <None Remove="Assets\games.png" />
     <None Remove="Assets\manager.png" />
-    <None Remove="Assets\placeholder.png" />
     <None Remove="Assets\remove.png" />
     <None Remove="Assets\search.png" />
     <None Remove="Assets\staff.png" />
@@ -24,6 +23,9 @@
     <None Remove="Assets\users.png" />
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\placeholder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -37,7 +39,6 @@
     <Resource Include="Assets\Control\save.png" />
     <Resource Include="Assets\manager.png" />
     <Resource Include="Assets\Control\add.png" />
-    <Resource Include="Assets\placeholder.png" />
     <Resource Include="Assets\search.png" />
     <Resource Include="Assets\users.png" />
   </ItemGroup>
