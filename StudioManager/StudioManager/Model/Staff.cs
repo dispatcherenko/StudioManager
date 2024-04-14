@@ -32,7 +32,7 @@ public partial class Staff : ObservableValidator
 
     [Required]
     [NotNull]
-    [Phone]
+    [RegularExpression(@"^\+?\d{1,3}?\d{9,15}$", ErrorMessage = "Invalid phone number format")]
     public string Employeephonenumber
     {
         get => _employeephonenumber;
@@ -41,7 +41,7 @@ public partial class Staff : ObservableValidator
 
     [Required]
     [NotNull]
-    [EmailAddress]
+    [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$", ErrorMessage = "Invalid email format")]
     public string Employeeemail
     {
         get => _employeeemail;
@@ -58,6 +58,7 @@ public partial class Staff : ObservableValidator
     }
 
     [Required]
+    [EnumDataType(typeof(Sex))]
     public Sex Employeesex
     {
         get => _employeesex;

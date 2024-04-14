@@ -107,8 +107,8 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("employeeposition");
             entity.Property(e => e.Employeesex)
                 .HasConversion<string>()
-                .HasColumnType("sex")
-                .HasColumnName("employeesex");
+                .HasColumnName("employeesex")
+                .IsUnicode(false);
             entity.Property(e => e.IdDepartment).HasColumnName("id_department");
 
             entity.HasOne(d => d.IdDepartmentNavigation).WithMany(p => p.Staff)

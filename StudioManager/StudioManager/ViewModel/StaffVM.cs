@@ -4,6 +4,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -45,7 +46,7 @@ namespace StudioManager.ViewModel
             set
             {
                 _staffList = value;
-                OnPropertyChanged(nameof(_staffList));
+                OnPropertyChanged(nameof(StaffList));
             }
         }
 
@@ -69,15 +70,21 @@ namespace StudioManager.ViewModel
         public StaffVM()
         {
             LoadStaffList();
-            Photo = ConvertPathToByte("Assets/placeholder.png");
         }
 
         private void LoadStaffList()
         {
             using (var db = new PostgresContext())
             {
+                StaffList = new ObservableCollection<Staff>();
+
                 db.Staff.Load();
-                StaffList = new ObservableCollection<Staff>(db.Staff);
+
+                foreach(var staff in db.Staff)
+                {
+                    StaffList.Add(staff);
+                }
+
             }
         }
 
@@ -104,6 +111,7 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Add()
         {
+            Photo = ConvertPathToByte("Assets/placeholder.png");
             CanAdd = CanEdit = CanSaveDb = false;
             _addWindow = new StaffAddWindow(this);
             Selected = new Staff();
@@ -123,6 +131,10 @@ namespace StudioManager.ViewModel
         {
             CanAdd = CanEdit = CanSaveDb = false;
             _addWindow = new StaffAddWindow(this);
+            if (Selected.Employeephoto != null)
+            {
+                Photo = Selected.Employeephoto;
+            }
             OnPropertyChanged(nameof(Selected));
             _addWindow.Show();
             IsEditing = true;
@@ -131,14 +143,32 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Save()
         {
+            try
+            {
+                using (var context = new PostgresContext())
+                {
+                    context.Staff.RemoveRange(context.Staff);
 
+                    foreach (var staff in StaffList)
+                    {
+                        context.Staff.Add(staff);
+                    }
+
+                    context.SaveChanges();
+                }
+
+                MessageBox.Show("Новый список сохранен.", "Сохранено!", MessageBoxButton.OK);
+                Debug.WriteLine("Staff : Saved successfully!");
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         [RelayCommand]
         private void SaveNew()
         {
-            Selected.Employeephoto = Photo;
-
             if (IsValid)
             {
                 if (IsEditing)
@@ -184,14 +214,23 @@ namespace StudioManager.ViewModel
 
                 Photo = ConvertPathToByte(filePath);
             }
+
+            Selected.Employeephoto = Photo;
         }
 
         [RelayCommand]
         private void RadioButton(object parameter)
         {
-            Debug.WriteLine(parameter);
             Sex sex = (Sex)Enum.Parse(typeof(Sex), parameter as string);
+            Debug.WriteLine("Staff : Sex chaned to: " + sex + " " + sex.GetType);
             Selected.Employeesex = sex;
+        }
+
+        [RelayCommand]
+        private void Refresh()
+        {
+            LoadStaffList();
+            Debug.WriteLine("Staff : Refreshed");
         }
     }
 }

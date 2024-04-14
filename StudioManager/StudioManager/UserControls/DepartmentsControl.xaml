@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="StudioManager.UserControls.DepartmentsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StudioManager.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Image">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="30"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" 
+                   FontSize="24" 
+                   Height="Auto" 
+                   Margin="7" 
+                   VerticalAlignment="Top" 
+                   FontWeight="Bold">
+            Departments
+        </TextBlock>
+        <Grid Grid.Row="1" Margin="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Add" 
+                Grid.Column="0"
+                Command="{Binding Staff.AddCommand}"
+                IsEnabled="{Binding Staff.CanAdd, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/add.png"/>
+            </Button>
+            <Button Name="Remove" 
+                Grid.Column="1"
+                Command="{Binding Staff.RemoveCommand}"
+                IsEnabled="{Binding Staff.CanRemove, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/remove.png"/>
+            </Button>
+            <Button Name="Edit" 
+                Grid.Column="2"
+                Command="{Binding Staff.EditCommand}"
+                IsEnabled="{Binding Staff.CanEdit, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/edit.png"/>
+            </Button>
+            <Button Name="Save" 
+                Grid.Column="3"
+                Command="{Binding Staff.SaveCommand}"
+                IsEnabled="{Binding Staff.CanSaveDb, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/save.png"/>
+            </Button>
+            <Button Name="Refresh" 
+                Grid.Column="5"
+                Command="{Binding Staff.RefreshCommand}">
+                <Image Source="/Assets/Control/refresh.png"/>
+            </Button>
+        </Grid>
+        
+    </Grid>
+</UserControl>

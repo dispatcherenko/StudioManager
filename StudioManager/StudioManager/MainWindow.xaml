@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudioManager"
         xmlns:uc="clr-namespace:StudioManager.UserControls"
+        xmlns:converter="clr-namespace:StudioManager.Converters"
         mc:Ignorable="d"
         Title="Studio Manager" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
@@ -19,6 +20,8 @@
             <Setter Property="Width" Value="30"/>
             <Setter Property="Margin" Value="0 0 5 0"/>
         </Style>
+
+        <converter:VisibilityConverter x:Key="VisibilityConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -67,32 +70,37 @@
                 </TextBox>
             </Grid>
 
-            <ListBox Grid.Column="0" Grid.Row="3" BorderBrush="White">
-                <ListBoxItem IsSelected="True">
+            <ListBox Grid.Column="0" Grid.Row="3" 
+                     BorderBrush="White"
+                     x:Name="ControlsListBox"
+                     SelectedItem="{Binding SelectedItem, 
+                                UpdateSourceTrigger=PropertyChanged, 
+                                Mode=TwoWay}">
+                <ListBoxItem x:Name="Персонал">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/staff.png"/>
                         <TextBlock>Персонал</TextBlock>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem x:Name="Отделы">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/departments.png" />
                         <TextBlock>Отделы</TextBlock>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem x:Name="Таски">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/tasks.png" />
                         <TextBlock>Таски</TextBlock>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem x:Name="Продукты">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/games.png" />
                         <TextBlock>Продукты</TextBlock>
                     </StackPanel>
                 </ListBoxItem>
-                <ListBoxItem>
+                <ListBoxItem x:Name="Пользователи">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Assets/users.png" />
                         <TextBlock>Пользователи</TextBlock>
@@ -102,10 +110,24 @@
         </Grid>
 
         <Grid Grid.Column="2">
+            <TextBlock VerticalAlignment="Center" 
+                       HorizontalAlignment="Center">
+                Добро пожаловать в Studio Manager, выберите таблицу.
+            </TextBlock>
             <uc:StaffControl 
                 Width="Auto" 
                 Height="Auto" 
-                DataContext="{Binding}"/>
+                DataContext="{Binding}"
+                Visibility="{Binding StaffVisible, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Converter={StaticResource VisibilityConverter}}"/>          
+            <uc:DepartmentsControl
+                Width="Auto" 
+                Height="Auto" 
+                DataContext="{Binding}"
+                Visibility="{Binding DepartmentsVisible, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
     </Grid>
 </Window>

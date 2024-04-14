@@ -25,6 +25,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Name="Add" 
                     Grid.Column="0"
@@ -50,13 +52,20 @@
                     IsEnabled="{Binding Staff.CanSaveDb, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/save.png"/>
             </Button>
+            <Button Name="Refresh" 
+                    Grid.Column="5"
+                    Command="{Binding Staff.RefreshCommand}">    
+                <Image Source="/Assets/Control/refresh.png"/>
+            </Button>
         </Grid>
         <DataGrid Grid.Row="2" Margin="0 2 0 0"
-                  ItemsSource="{Binding Staff.StaffList}" 
+                  ItemsSource="{Binding Staff.StaffList, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" 
+                  SelectionMode="Single"
                   BorderBrush="White" 
                   Background="White"
-                  SelectedItem="{Binding Staff.Selected}">
+                  SelectedItem="{Binding Staff.Selected}" 
+                  IsReadOnly="True">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="White"/>
