@@ -13,9 +13,6 @@ namespace StudioManager.ViewModel
 {
     public partial class StaffVM : ObservableObject
     {
-        [ObservableProperty]
-        private NewStaffVM _newStaff;
-
         private ObservableCollection<Staff> _staffList;
 
         private StaffAddWindow _addWindow;
@@ -134,6 +131,21 @@ namespace StudioManager.ViewModel
             return File.ReadAllBytes(path);
         }
 
+        private async Task<int?> GetDepartmentIdFromDatabase(Department department)
+        {
+            using (var context = new PostgresContext())
+            {
+                var departmentFromDb = await context.Departments.FirstOrDefaultAsync(d => d.IdDepartment == department.IdDepartment);
+
+                if (departmentFromDb != null)
+                {
+                    return departmentFromDb.IdDepartment;
+                }
+
+                return null;
+            }
+        }
+
         [RelayCommand]
         private void Add()
         {
@@ -174,11 +186,20 @@ namespace StudioManager.ViewModel
             {
                 using (var context = new PostgresContext())
                 {
-                    context.Staff.RemoveRange(context.Staff);
-
                     foreach (var staff in StaffList)
                     {
-                        context.Staff.Add(staff);
+                        var existingStaff = context.Staff.FirstOrDefault(s => s.IdEmployee == staff.IdEmployee);
+
+                        if (existingStaff != null)
+                        {
+                            // Обновление существующего сотрудника
+                            context.Entry(existingStaff).CurrentValues.SetValues(staff);
+                        }
+                        else
+                        {
+                            // Добавление нового сотрудника
+                            context.Staff.Add(staff);
+                        }
                     }
 
                     context.SaveChanges();
@@ -187,21 +208,31 @@ namespace StudioManager.ViewModel
                 MessageBox.Show("Новый список сохранен.", "Сохранено!", MessageBoxButton.OK);
                 Debug.WriteLine("Staff : Saved successfully!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                MessageBox.Show("Ошибка при сохранении списка сотрудников в базе данных. \n");
             }
         }
 
         [RelayCommand]
-        private void SaveNew()
+        private async void SaveNew()
         {
             if (IsValid)
             {
-                if(Selected.IdDepartment != null)
+                if (SelectedDepartment != null)
                 {
-                    int id = SelectedDepartment.IdDepartment;
-                    Selected.IdDepartment = id;
+                    int? idDepartmentFromDatabase = await GetDepartmentIdFromDatabase(SelectedDepartment);
+
+                    if (idDepartmentFromDatabase.HasValue)
+                    {
+                        Selected.IdDepartment = idDepartmentFromDatabase;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Отдел не найден в базе данных.");
+                        return;
+                    }
                 }
 
                 if (IsEditing)
@@ -216,6 +247,8 @@ namespace StudioManager.ViewModel
                 _addWindow.Close();
                 CanAdd = CanSaveDb = true;
             }
+
+            IsEditing = false;
         }
 
         [RelayCommand]
@@ -231,6 +264,7 @@ namespace StudioManager.ViewModel
                 _addWindow.Close();
             }
             CanAdd = CanSaveDb = true;
+            IsEditing = false;
         }
 
         [RelayCommand]
@@ -255,9 +289,8 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void RadioButton(object parameter)
         {
-            Sex sex = (Sex)Enum.Parse(typeof(Sex), parameter as string);
-            Debug.WriteLine("Staff : Sex chaned to: " + sex + " " + sex.GetType);
-            Selected.Employeesex = sex;
+            Debug.WriteLine("Staff : Sex chaned to: ");
+            Selected.Employeesex = parameter as string;
         }
 
         [RelayCommand]

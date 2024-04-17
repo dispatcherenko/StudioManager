@@ -18,7 +18,7 @@ public partial class Staff : ObservableValidator
     private string _employeeposition = null!;
     [ObservableProperty]
     private byte[]? _employeephoto;
-    private Sex _employeesex;
+    private string _employeesex = null!;
 
     [Required]
     [NotNull]
@@ -58,18 +58,11 @@ public partial class Staff : ObservableValidator
     }
 
     [Required]
-    [EnumDataType(typeof(Sex))]
-    public Sex Employeesex
+    public string Employeesex
     {
         get => _employeesex;
         set => SetProperty(ref _employeesex, value, true);
     }
 
     public virtual Department? IdDepartmentNavigation { get; set; }
-}
-
-public enum Sex
-{
-    М,
-    Ж
 }
