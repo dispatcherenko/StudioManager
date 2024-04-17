@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using StudioManager.Model;
+using StudioManager.Model.Service;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StudioManager.ViewModel
@@ -15,7 +18,6 @@ namespace StudioManager.ViewModel
 
         [ObservableProperty]
         private StaffVM _staff;
-
         [ObservableProperty]
         private DepartmentsVM _departments;
 
@@ -77,6 +79,12 @@ namespace StudioManager.ViewModel
             }
 
                 return item;
+        }
+
+        [RelayCommand]
+        private void WindowClosing(object obj)
+        {
+
         }
     }
 }

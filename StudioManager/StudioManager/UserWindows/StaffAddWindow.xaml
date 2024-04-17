@@ -87,10 +87,16 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">ID Отдела:</TextBlock>
-                <TextBox Grid.Column="1"
-                         Text="{Binding Selected.IdDepartment, 
-                                UpdateSourceTrigger=PropertyChanged,
-                                Mode=TwoWay}"/>
+                <ComboBox Grid.Column="1" 
+                          ItemsSource="{Binding DepartmentList, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedDepartment, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Departmentname"
+                          Height="25" 
+                          Margin="6,6,6,6" 
+                          Background="White">
+                </ComboBox>
             </Grid>
             <Grid Grid.Row="5" Margin="0 5">
                 <Grid.ColumnDefinitions>

@@ -1,11 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +13,16 @@ namespace StudioManager.ViewModel
 {
     public partial class StaffVM : ObservableObject
     {
+        [ObservableProperty]
+        private NewStaffVM _newStaff;
+
         private ObservableCollection<Staff> _staffList;
 
         private StaffAddWindow _addWindow;
 
         private Staff _selected;
+
+        private Department _selectedDepartment;
 
         public Staff Selected
         {
@@ -35,6 +36,20 @@ namespace StudioManager.ViewModel
                 Debug.WriteLine("Staff : Selected item changed");
                 OnPropertyChanged(nameof(Selected));
             }
+        }
+
+        public Department SelectedDepartment
+        {
+            get 
+            { 
+                return _selectedDepartment; 
+            }
+            set 
+            { 
+                _selectedDepartment = value;
+                Debug.WriteLine("Staff : Department changed");
+                OnPropertyChanged(nameof(SelectedDepartment)); 
+            } 
         }
 
         public ObservableCollection<Staff> StaffList
@@ -67,6 +82,9 @@ namespace StudioManager.ViewModel
         [ObservableProperty]
         private bool _isValid = false;
 
+        [ObservableProperty]
+        private List<Department> _departmentList;
+
         public StaffVM()
         {
             LoadStaffList();
@@ -85,6 +103,14 @@ namespace StudioManager.ViewModel
                     StaffList.Add(staff);
                 }
 
+                DepartmentList = new List<Department>();
+
+                db.Departments.Load();
+
+                foreach (var dep in db.Departments)
+                {
+                    DepartmentList.Add(dep);
+                }
             }
         }
 
@@ -115,6 +141,7 @@ namespace StudioManager.ViewModel
             CanAdd = CanEdit = CanSaveDb = false;
             _addWindow = new StaffAddWindow(this);
             Selected = new Staff();
+            SelectedDepartment = null;
             _addWindow.Show();
         }
 
@@ -171,6 +198,12 @@ namespace StudioManager.ViewModel
         {
             if (IsValid)
             {
+                if(Selected.IdDepartment != null)
+                {
+                    int id = SelectedDepartment.IdDepartment;
+                    Selected.IdDepartment = id;
+                }
+
                 if (IsEditing)
                 {
                     StaffList[StaffList.IndexOf(Selected)] = Selected;
@@ -179,6 +212,7 @@ namespace StudioManager.ViewModel
                 {
                     StaffList.Add(Selected);
                 }
+
                 _addWindow.Close();
                 CanAdd = CanSaveDb = true;
             }

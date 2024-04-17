@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Department
+public partial class Department : ObservableValidator
 {
-    public int IdDepartment { get; set; }
+    [ObservableProperty]
+    private int _idDepartment;
+    private string _departmentname = null!;
 
-    public string Departmentname { get; set; } = null!;
+    [Required]
+    [MinLength(2)]
+    [MaxLength(64)]
+    public string Departmentname
+    {
+        get => _departmentname;
+        set => SetProperty(ref _departmentname, value, true);
+    }
 
     public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
 
