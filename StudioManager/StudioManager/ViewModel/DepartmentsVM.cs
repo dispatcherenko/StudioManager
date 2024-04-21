@@ -8,23 +8,11 @@ using System.Windows;
 
 namespace StudioManager.ViewModel
 {
-    public partial class DepartmentsVM : ObservableObject
+    public partial class DepartmentsVM : ManagerPage
     {
         private ObservableCollection<Department> _departmentList { get; set; }
 
         private Department _selected;
-
-        [ObservableProperty]
-        private bool _canAdd = true;
-        [ObservableProperty]
-        private bool _canEdit = false;
-        [ObservableProperty]
-        private bool _canRemove = false;
-        [ObservableProperty]
-        private bool _canSaveDb = true;
-
-        [ObservableProperty]
-        private bool _isValid = false;
 
         public ObservableCollection<Department> DepartmentList
         {
@@ -43,7 +31,7 @@ namespace StudioManager.ViewModel
         {
             get
             {
-                return Validate(_selected);
+                return (Department)Validate(_selected);
             }
             set
             {
@@ -53,27 +41,27 @@ namespace StudioManager.ViewModel
             }
         }
 
-        public Department Validate(Department dep)
+        public DepartmentsVM()
         {
-            if (dep != null)
+            LoadList();
+        }
+        protected override object Validate(object obj)
+        {
+            Department department = (Department)obj;
+            if (department != null)
             {
                 CanRemove = CanEdit = true;
-                IsValid = !dep.HasErrors;
+                IsValid = !department.HasErrors;
                 Debug.WriteLine("Departments : IsValid", Convert.ToString(IsValid));
             }
             else
             {
                 CanRemove = CanEdit = false;
             }
-            return dep;
+            return department;
         }
 
-        public DepartmentsVM()
-        {
-            LoadDepartmentList();
-        }
-
-        private void LoadDepartmentList()
+        protected override void LoadList()
         {
             using (var db = new PostgresContext())
             {
@@ -134,7 +122,7 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Refresh()
         {
-            LoadDepartmentList();
+            LoadList();
             Debug.WriteLine("Departments : Refreshed");
         }
     }

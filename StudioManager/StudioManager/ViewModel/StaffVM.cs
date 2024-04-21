@@ -11,7 +11,7 @@ using StudioManager.UserWindows;
 
 namespace StudioManager.ViewModel
 {
-    public partial class StaffVM : ObservableObject
+    public partial class StaffVM : ManagerPage
     {
         private ObservableCollection<Staff> _staffList;
 
@@ -25,7 +25,7 @@ namespace StudioManager.ViewModel
         {
             get
             {
-                return Validate(_selected);
+                return (Staff)Validate(_selected);
             }
             set
             {
@@ -66,29 +66,20 @@ namespace StudioManager.ViewModel
         private byte[] _photo;
 
         [ObservableProperty]
-        private bool _canAdd = true;
-        [ObservableProperty]
-        private bool _canEdit  = false;
-        [ObservableProperty]
-        private bool _canRemove  = false;
-        [ObservableProperty]
-        private bool _canSaveDb  = true;
-
-        [ObservableProperty]
-        private bool _isEditing = false;
-        [ObservableProperty]
-        private bool _isValid = false;
-
-        [ObservableProperty]
         private List<Department> _departmentList;
 
         public StaffVM()
         {
-            LoadStaffList();
+            LoadList();
+        }
+        public byte[] ConvertPathToByte(string path)
+        {
+            return File.ReadAllBytes(path);
         }
 
-        public Staff Validate(Staff staff)
+        protected override object Validate(object obj)
         {
+            Staff staff = (Staff)obj;
             if (staff != null)
             {
                 CanRemove = CanEdit = true;
@@ -102,13 +93,7 @@ namespace StudioManager.ViewModel
             return staff;
         }
 
-        public byte[] ConvertPathToByte(string path)
-        {
-            return File.ReadAllBytes(path);
-        }
-
-
-        private void LoadStaffList()
+        protected override void LoadList()
         {
             using (var db = new PostgresContext())
             {
@@ -296,7 +281,7 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Refresh()
         {
-            LoadStaffList();
+            LoadList();
             Debug.WriteLine("Staff : Refreshed");
         }
     }

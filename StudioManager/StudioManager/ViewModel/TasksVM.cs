@@ -7,10 +7,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Controls.Primitives;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace StudioManager.ViewModel
 {
-    public partial class TasksVM : ObservableObject
+    public partial class TasksVM : ManagerPage
     {
         private ObservableCollection<Model.Task> _tasksList;
         private Model.Task _selectedTask;
@@ -18,29 +19,17 @@ namespace StudioManager.ViewModel
 
         [ObservableProperty]
         private string _selectedState = "Sent";
+
         [ObservableProperty]
         private DateTime _selectedDate = DateTime.Now;
 
         [ObservableProperty]
         private List<Department> _departmentList;
         private Department _selectedDepartment;
+
         [ObservableProperty]
         private List<Game> _gamesList;
         private Game _selectedGame;
-
-        [ObservableProperty]
-        private bool _canAdd = true;
-        [ObservableProperty]
-        private bool _canEdit = false;
-        [ObservableProperty]
-        private bool _canRemove = false;
-        [ObservableProperty]
-        private bool _canSaveDb = true;
-
-        [ObservableProperty]
-        private bool _isEditing = false;
-        [ObservableProperty]
-        private bool _isValid = false;
 
         public ObservableCollection<Model.Task> TasksList
         {
@@ -59,7 +48,7 @@ namespace StudioManager.ViewModel
         {
             get
             {
-                return Validate(_selectedTask);
+                return (Model.Task)Validate(_selectedTask);
             }
             set
             {
@@ -99,12 +88,13 @@ namespace StudioManager.ViewModel
 
         public TasksVM()
         {
-            LoadTasksList();
+            LoadList();
             StateList = new List<string>() { "Sent", "Process", "Rewiew", "Done" };
         }
 
-        public Model.Task Validate(Model.Task task)
+        protected override object Validate(object obj)
         {
+            Model.Task task = (Model.Task)obj;
             if (task != null)
             {
                 CanRemove = CanEdit = true;
@@ -118,7 +108,7 @@ namespace StudioManager.ViewModel
             return task;
         }
 
-        private void LoadTasksList()
+        protected override void LoadList()
         {
             using (var db = new PostgresContext())
             {
@@ -318,7 +308,7 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Refresh()
         {
-            LoadTasksList();
+            LoadList();
             Debug.WriteLine("Staff : Refreshed");
         }
     }
