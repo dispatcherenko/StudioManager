@@ -87,6 +87,27 @@ namespace StudioManager.ViewModel
             LoadStaffList();
         }
 
+        public Staff Validate(Staff staff)
+        {
+            if (staff != null)
+            {
+                CanRemove = CanEdit = true;
+                IsValid = !staff.HasErrors;
+                Debug.WriteLine("Staff : IsValid", Convert.ToString(IsValid));
+            }
+            else
+            {
+                CanRemove = CanEdit = false;
+            }
+            return staff;
+        }
+
+        public byte[] ConvertPathToByte(string path)
+        {
+            return File.ReadAllBytes(path);
+        }
+
+
         private void LoadStaffList()
         {
             using (var db = new PostgresContext())
@@ -111,26 +132,6 @@ namespace StudioManager.ViewModel
             }
         }
 
-        public Staff Validate(Staff staff)
-        {
-            if (staff != null)
-            {
-                CanRemove = CanEdit = true;
-                IsValid = !staff.HasErrors;
-                Debug.WriteLine("Staff : IsValid", Convert.ToString(IsValid));
-            }
-            else
-            {
-                CanRemove = CanEdit = false;
-            }
-            return staff;
-        }
-
-        public byte[] ConvertPathToByte(string path)
-        {
-            return File.ReadAllBytes(path);
-        }
-
         private async Task<int?> GetDepartmentIdFromDatabase(Department department)
         {
             using (var context = new PostgresContext())
@@ -153,7 +154,6 @@ namespace StudioManager.ViewModel
             CanAdd = CanEdit = CanSaveDb = false;
             _addWindow = new StaffAddWindow(this);
             Selected = new Staff();
-            SelectedDepartment = null;
             _addWindow.Show();
         }
 

@@ -129,11 +129,15 @@ public partial class PostgresContext : DbContext
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'TaskGroup'::character varying")
                 .HasColumnName("taskgroup");
-            entity.Property(e => e.Taskisactive).HasColumnName("taskisactive");
+            entity.Property(e => e.Taskstate)
+                .HasColumnName("taskstate")
+                .HasDefaultValueSql("'Sent'::character varying");
             entity.Property(e => e.Taskname)
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'TaskName'::character varying")
                 .HasColumnName("taskname");
+            entity.Property(e => e.Taskdeadline)
+                .HasColumnName("taskdeadline");
 
             entity.HasOne(d => d.IdDepartmentNavigation).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.IdDepartment)

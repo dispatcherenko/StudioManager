@@ -6,7 +6,136 @@
              xmlns:local="clr-namespace:StudioManager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Image">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="30"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" 
+                   FontSize="24" 
+                   Height="Auto" 
+                   Margin="7" 
+                   VerticalAlignment="Top" 
+                   FontWeight="Bold">
+            Tasks
+        </TextBlock>
+        <Grid Grid.Row="1" Margin="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Add" 
+                Grid.Column="0"
+                Command="{Binding Tasks.AddCommand}"
+                IsEnabled="{Binding Tasks.CanAdd, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/add.png"/>
+            </Button>
+            <Button Name="Remove" 
+                Grid.Column="1"
+                Command="{Binding Tasks.RemoveCommand}"
+                IsEnabled="{Binding Tasks.CanRemove, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/remove.png"/>
+            </Button>
+            <Button Name="Edit" 
+                Grid.Column="2"
+                Command="{Binding Tasks.EditCommand}"
+                IsEnabled="{Binding Tasks.CanEdit, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/edit.png"/>
+            </Button>
+            <Button Name="Save" 
+                Grid.Column="3"
+                Command="{Binding Tasks.SaveCommand}"
+                IsEnabled="{Binding Tasks.CanSaveDb, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="/Assets/Control/save.png"/>
+            </Button>
+            <Button Name="Refresh" 
+                Grid.Column="5"
+                Command="{Binding Tasks.RefreshCommand}">
+                <Image Source="/Assets/Control/refresh.png"/>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock>Сортировка по отделам:</TextBlock>
+                <ComboBox Margin="3"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBlock>Сортировка по продуктам:</TextBlock>
+                <ComboBox Margin="3"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock>Сортировка по группам:</TextBlock>
+                <ComboBox Margin="3"/>
+            </StackPanel>
+            <StackPanel Grid.Column="3">
+                <TextBlock>Сортировка по состоянию:</TextBlock>
+                <ComboBox Margin="3"/>
+            </StackPanel>
+        </Grid>
+        <DataGrid Grid.Row="3" Margin="0 2 0 0"
+              ItemsSource="{Binding Tasks.TasksList, UpdateSourceTrigger=PropertyChanged}" 
+              AutoGenerateColumns="False" 
+              SelectionMode="Single"
+              BorderBrush="White" 
+              Background="White"
+              SelectedItem="{Binding Tasks.SelectedTask}" 
+              IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0 1 1 1"/>
+                    <Setter Property="BorderBrush" Value="#FFD0D0D0"/>
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" 
+                                Binding="{Binding IdTask}" 
+                                Width="Auto" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="ID Отдела" 
+                                Binding="{Binding IdDepartment}"  
+                                Width="Auto" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="ID Продукта" 
+                                Binding="{Binding IdGame}"  
+                                Width="Auto" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="Группа тасков" 
+                                Binding="{Binding Taskgroup}"  
+                                Width="*" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" 
+                                Binding="{Binding Taskname}"  
+                                Width="*" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="Состояние" 
+                                Binding="{Binding Taskstate}"  
+                                Width="*" 
+                                IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дедлайн" 
+                                Binding="{Binding Taskdeadline}"  
+                                Width="*" 
+                                IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

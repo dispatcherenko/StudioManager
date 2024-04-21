@@ -86,7 +86,7 @@
                     <ColumnDefinition Width="170"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0">ID Отдела:</TextBlock>
+                <TextBlock Grid.Column="0">Отдел:</TextBlock>
                 <ComboBox Grid.Column="1" 
                           ItemsSource="{Binding DepartmentList, 
                                         UpdateSourceTrigger=PropertyChanged}"

@@ -136,6 +136,13 @@
                 Visibility="{Binding DepartmentsVisible, 
                             UpdateSourceTrigger=PropertyChanged, 
                             Converter={StaticResource VisibilityConverter}}"/>
+            <uc:TasksControl
+                Width="Auto" 
+                Height="Auto" 
+                DataContext="{Binding}"
+                Visibility="{Binding TasksVisible, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
     </Grid>
 </Window>

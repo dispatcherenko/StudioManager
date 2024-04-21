@@ -20,6 +20,8 @@ namespace StudioManager.ViewModel
         private StaffVM _staff;
         [ObservableProperty]
         private DepartmentsVM _departments;
+        [ObservableProperty]
+        private TasksVM _tasks;
 
         [ObservableProperty]
         private bool _staffVisible = false;
@@ -49,6 +51,7 @@ namespace StudioManager.ViewModel
         {
             Staff = new StaffVM();
             Departments = new DepartmentsVM();
+            Tasks = new TasksVM();
         }
 
         public object VisibilityCheck(object item)
@@ -65,15 +68,22 @@ namespace StudioManager.ViewModel
                     {
                         case "Персонал":
                             StaffVisible = true;
-                            DepartmentsVisible = false;
+                            DepartmentsVisible = TasksVisible = false;
                             Debug.WriteLine("Main : Switched to Staff");
                             break;
                         case "Отделы":
                             DepartmentsVisible = true;
-                            StaffVisible = false;
+                            StaffVisible = TasksVisible = false;
                             Debug.WriteLine("Main : Switched to Departments");
                             break;
-                            // Добавьте другие кейсы, если необходимо
+                        case "Таски":
+                            TasksVisible = true;
+                            StaffVisible = DepartmentsVisible = false;
+                            Debug.WriteLine("Main : Switched to Tasks");
+                            break;
+                        default:
+                            StaffVisible = DepartmentsVisible = TasksVisible = false;
+                            break;
                     }
                 }
             }

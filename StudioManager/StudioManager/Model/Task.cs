@@ -1,21 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Task
+public partial class Task : ObservableValidator
 {
-    public int IdTask { get; set; }
+    [ObservableProperty]
+    private int _idTask;
+    [ObservableProperty]
+    private int? _idDepartment;
+    [ObservableProperty]
+    private int? _idGame;
+    private string _taskgroup;
+    private string _taskname = null!;
+    private string _taskstate = null!;
+    [ObservableProperty]
+    private DateTime _taskdeadline;
 
-    public int? IdDepartment { get; set; }
+    [MaxLength(64)]
+    [MinLength(1)]
+    public string Taskgroup
+    {
+        get => _taskgroup;
+        set => SetProperty(ref _taskgroup, value, true);
+    }
 
-    public int? IdGame { get; set; }
+    [Required]
+    [MaxLength(64)]
+    [MinLength(1)]
+    public string Taskname
+    {
+        get => _taskname;
+        set => SetProperty(ref _taskname, value, true);
+    }
 
-    public string Taskgroup { get; set; } = null!;
-
-    public string Taskname { get; set; } = null!;
-
-    public bool? Taskisactive { get; set; }
+    [Required]
+    public string Taskstate
+    {
+        get => _taskstate;
+        set => SetProperty(ref _taskstate, value, true);
+    }
 
     public virtual Department? IdDepartmentNavigation { get; set; }
 
