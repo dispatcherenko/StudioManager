@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +79,7 @@ public partial class PostgresContext : DbContext
                 .HasDefaultValueSql("'GameName'::character varying")
                 .HasColumnName("gamename");
             entity.Property(e => e.Gamereleasedate).HasColumnName("gamereleasedate");
+            entity.Property(e => e.Gamepicture).HasColumnName("gamepicture");
         });
 
         modelBuilder.Entity<Staff>(entity =>
@@ -171,19 +172,20 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Usergame>(entity =>
         {
-            entity.HasKey(e => e.IdUsergames).HasName("usergames_pkey");
+            entity.HasKey(e => new { e.IdGame, e.IdUser }).HasName("usergames_pkey");
 
             entity.ToTable("usergames");
 
-            entity.Property(e => e.IdUsergames).HasColumnName("id_usergames");
             entity.Property(e => e.IdGame).HasColumnName("id_game");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
 
-            entity.HasOne(d => d.IdGameNavigation).WithMany(p => p.Usergames)
+            entity.HasOne(d => d.IdGameNavigation)
+                .WithMany(p => p.Usergames)
                 .HasForeignKey(d => d.IdGame)
                 .HasConstraintName("id_game_fk");
 
-            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Usergames)
+            entity.HasOne(d => d.IdUserNavigation)
+                .WithMany(p => p.Usergames)
                 .HasForeignKey(d => d.IdUser)
                 .HasConstraintName("id_user_fk");
         });

@@ -68,7 +68,7 @@
                           Height="25" 
                           Margin="6,6,6,6" 
                           Background="White"
-                          ItemsSource="{Binding StateList, 
+                          ItemsSource="{Binding StatesList, 
                                                 UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <Grid Grid.Row="3">
@@ -78,7 +78,6 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0">Дедлайн:</TextBlock>
                 <DatePicker Grid.Column="1" 
-                            IsDropDownOpen="True" 
                             SelectedDateFormat="Short"
                             Margin="6,6,6,6"
                             FirstDayOfWeek="Monday" 

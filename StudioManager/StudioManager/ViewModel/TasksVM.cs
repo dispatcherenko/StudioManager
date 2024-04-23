@@ -14,22 +14,35 @@ namespace StudioManager.ViewModel
     public partial class TasksVM : ManagerPage
     {
         private ObservableCollection<Model.Task> _tasksList;
+        private ObservableCollection<Model.Task> _filteredList;
         private Model.Task _selectedTask;
-        private TaskAddWindow _addWindow;
 
-        [ObservableProperty]
-        private string _selectedState = "Sent";
+        private TaskAddWindow _addWindow;
 
         [ObservableProperty]
         private DateTime _selectedDate = DateTime.Now;
 
         [ObservableProperty]
         private List<Department> _departmentList;
+        [ObservableProperty]
         private Department _selectedDepartment;
+        private Department _filteredDepartment;
 
         [ObservableProperty]
         private List<Game> _gamesList;
+        [ObservableProperty]
         private Game _selectedGame;
+        private Game _filteredGame;
+
+        [ObservableProperty]
+        private List<string> _statesList;
+        [ObservableProperty]
+        private string _selectedState = "Sent";
+        private string _filteredState;
+
+        [ObservableProperty]
+        private List<string> _groupsList = new List<string>();
+        private string _filteredGroup;
 
         public ObservableCollection<Model.Task> TasksList
         {
@@ -41,6 +54,19 @@ namespace StudioManager.ViewModel
             {
                 _tasksList = value;
                 OnPropertyChanged(nameof(TasksList));
+            }
+        }
+
+        public ObservableCollection<Model.Task> FilteredList
+        {
+            get
+            {
+                return _filteredList;
+            }
+            set
+            {
+                _filteredList = value;
+                OnPropertyChanged(nameof(FilteredList));
             }
         }
 
@@ -56,40 +82,66 @@ namespace StudioManager.ViewModel
                 OnPropertyChanged(nameof(SelectedTask));
             }
         }
-        public Department SelectedDepartment
+
+        public Department FilteredDepartment
         {
             get
             {
-                return _selectedDepartment;
+                return _filteredDepartment;
             }
             set
             {
-                _selectedDepartment = value;
-                Debug.WriteLine("Task : Department changed");
-                OnPropertyChanged(nameof(SelectedDepartment));
+                _filteredDepartment = value;
+                Filter(TasksList);
+                OnPropertyChanged(nameof(FilteredDepartment));
             }
         }
 
-        public Game SelectedGame
+        public Game FilteredGame
         {
             get
             {
-                return _selectedGame;
+                return _filteredGame;
             }
             set
             {
-                _selectedGame = value;
-                Debug.WriteLine("Task : Game changed");
-                OnPropertyChanged(nameof(SelectedGame));
+                _filteredGame = value;
+                Filter(TasksList);
+                OnPropertyChanged(nameof(_filteredGame));
             }
         }
 
-        public List<string> StateList { get; set; }
+        public string FilteredGroup
+        {
+            get
+            {
+                return _filteredGroup;
+            }
+            set
+            {
+                _filteredGroup = value;
+                Filter(TasksList);
+                OnPropertyChanged(nameof(_filteredGroup));
+            }
+        }
+
+        public string FilteredState
+        {
+            get
+            {
+                return _filteredState;
+            }
+            set
+            {
+                _filteredState = value;
+                Filter(TasksList);
+                OnPropertyChanged(nameof(_filteredState));
+            }
+        }
 
         public TasksVM()
         {
             LoadList();
-            StateList = new List<string>() { "Sent", "Process", "Rewiew", "Done" };
         }
 
         protected override object Validate(object obj)
@@ -113,15 +165,30 @@ namespace StudioManager.ViewModel
             using (var db = new PostgresContext())
             {
                 TasksList = new ObservableCollection<Model.Task>();
+                StatesList = new List<string>();
+                GroupsList = new List<string>();
+
+                StatesList.Add("Все");
+                GroupsList.Add("Все");
 
                 db.Staff.Load();
 
                 foreach (var task in db.Tasks)
                 {
                     TasksList.Add(task);
+                    if (!(StatesList.Contains(task.Taskstate)))
+                    {
+                        StatesList.Add(task.Taskstate);
+                    }
+                    if (!(GroupsList.Contains(task.Taskgroup)))
+                    {
+                        GroupsList.Add(task.Taskgroup);
+                    }
                 }
 
                 DepartmentList = new List<Department>();
+
+                DepartmentList.Add(new Department { Departmentname = "Все" });
 
                 db.Departments.Load();
 
@@ -132,6 +199,8 @@ namespace StudioManager.ViewModel
 
                 GamesList = new List<Game>();
 
+                GamesList.Add(new Game { Gamename = "Все" });
+
                 db.Games.Load();
 
                 foreach (var game in db.Games)
@@ -139,6 +208,8 @@ namespace StudioManager.ViewModel
                     GamesList.Add(game);
                 }
             }
+
+            Filter(TasksList);
         }
 
         [RelayCommand]
@@ -271,7 +342,7 @@ namespace StudioManager.ViewModel
 
                 SelectedTask.Taskstate = SelectedState;
 
-                SelectedTask.Taskdeadline = SelectedDate.ToUniversalTime();
+                SelectedTask.Taskdeadline = DateOnly.FromDateTime(SelectedDate);
 
                 if (IsEditing)
                 {
@@ -309,7 +380,24 @@ namespace StudioManager.ViewModel
         private void Refresh()
         {
             LoadList();
-            Debug.WriteLine("Staff : Refreshed");
+            Debug.WriteLine("Tasks : Refreshed");
+        }
+
+        [RelayCommand]
+        private void Filter(ObservableCollection<Model.Task> list) 
+        {
+            FilteredList = new ObservableCollection<Model.Task> (list);
+
+            if (FilteredDepartment != null && FilteredDepartment.Departmentname != "Все")
+            {
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdDepartment == FilteredDepartment.IdDepartment));
+            }
+
+            if (FilteredGame != null && FilteredGame.Gamename != "Все")
+            {
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdGame == FilteredGame.IdGame));
+            }
+            Debug.WriteLine("Tasks : Filtered");
         }
     }
 }

@@ -1,19 +1,49 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StudioManager.Model;
 
-public partial class Game
+public partial class Game : ObservableValidator
 {
-    public int IdGame { get; set; }
+    [ObservableProperty]
+    private int _idGame;
+    [ObservableProperty]
+    private byte[]? _gamepicture;
+    [ObservableProperty]
+    private DateOnly _gamereleasedate;
+    private string _gamename = null!;
+    private string _gamegenre = null!;
+    private string _gamedescription;
 
-    public string Gamename { get; set; } = null!;
+    [Required]
+    [NotNull]
+    [MaxLength(64)]
+    [MinLength(2)]
+    public string Gamename
+    {
+        get => _gamename;
+        set => SetProperty(ref _gamename, value, true);
+    }
 
-    public string Gamegenre { get; set; } = null!;
+    [Required]
+    [NotNull]
+    [MaxLength(64)]
+    [MinLength(2)]
+    public string Gamegenre
+    {
+        get => _gamegenre;
+        set => SetProperty(ref _gamegenre, value, true);
+    }
 
-    public DateOnly Gamereleasedate { get; set; }
-
-    public string Gamedescription { get; set; } = null!;
+    [MaxLength(256)]
+    public string Gamedescription
+    {
+        get => _gamedescription;
+        set => SetProperty(ref _gamedescription, value, true);
+    }
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
@@ -72,10 +73,6 @@ namespace StudioManager.ViewModel
         {
             LoadList();
         }
-        public byte[] ConvertPathToByte(string path)
-        {
-            return File.ReadAllBytes(path);
-        }
 
         protected override object Validate(object obj)
         {
@@ -135,7 +132,7 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Add()
         {
-            Photo = ConvertPathToByte("Assets/placeholder.png");
+            Photo = File.ReadAllBytes("Assets/placeholder.png");
             CanAdd = CanEdit = CanSaveDb = false;
             _addWindow = new StaffAddWindow(this);
             Selected = new Staff();
@@ -265,7 +262,7 @@ namespace StudioManager.ViewModel
             {
                 string filePath = openFileDialog.FileName;
 
-                Photo = ConvertPathToByte(filePath);
+                Photo = File.ReadAllBytes(filePath);
             }
 
             Selected.Employeephoto = Photo;

@@ -5,8 +5,6 @@ namespace StudioManager.Model;
 
 public partial class Usergame
 {
-    public int IdUsergames { get; set; }
-
     public int? IdGame { get; set; }
 
     public int? IdUser { get; set; }

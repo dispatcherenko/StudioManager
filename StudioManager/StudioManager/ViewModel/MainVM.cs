@@ -22,7 +22,11 @@ namespace StudioManager.ViewModel
         private DepartmentsVM _departments;
         [ObservableProperty]
         private TasksVM _tasks;
+        [ObservableProperty]
+        private GamesVM _games;
 
+        [ObservableProperty]
+        private bool _noneVisible = true;
         [ObservableProperty]
         private bool _staffVisible = false;
         [ObservableProperty]
@@ -52,6 +56,7 @@ namespace StudioManager.ViewModel
             Staff = new StaffVM();
             Departments = new DepartmentsVM();
             Tasks = new TasksVM();
+            Games = new GamesVM();
         }
 
         public object VisibilityCheck(object item)
@@ -68,21 +73,42 @@ namespace StudioManager.ViewModel
                     {
                         case "Персонал":
                             StaffVisible = true;
-                            DepartmentsVisible = TasksVisible = false;
+                            DepartmentsVisible = 
+                                TasksVisible = 
+                                GamesVisible = 
+                                NoneVisible = false;
                             Debug.WriteLine("Main : Switched to Staff");
                             break;
                         case "Отделы":
                             DepartmentsVisible = true;
-                            StaffVisible = TasksVisible = false;
+                            StaffVisible = 
+                                TasksVisible = 
+                                GamesVisible = 
+                                NoneVisible = false;
                             Debug.WriteLine("Main : Switched to Departments");
                             break;
                         case "Таски":
                             TasksVisible = true;
-                            StaffVisible = DepartmentsVisible = false;
+                            StaffVisible = 
+                                DepartmentsVisible = 
+                                GamesVisible =
+                                NoneVisible = false;
                             Debug.WriteLine("Main : Switched to Tasks");
                             break;
+                        case "Продукты":
+                            GamesVisible = true;
+                            StaffVisible = 
+                                DepartmentsVisible = 
+                                TasksVisible = 
+                                NoneVisible = false;
+                            Debug.WriteLine("Main : Switched to Games");
+                            break;
                         default:
-                            StaffVisible = DepartmentsVisible = TasksVisible = false;
+                            NoneVisible = true;
+                            StaffVisible = 
+                                DepartmentsVisible = 
+                                TasksVisible = 
+                                GamesVisible = false;
                             break;
                     }
                 }

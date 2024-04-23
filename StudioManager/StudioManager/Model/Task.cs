@@ -17,7 +17,7 @@ public partial class Task : ObservableValidator
     private string _taskname = null!;
     private string _taskstate = null!;
     [ObservableProperty]
-    private DateTime _taskdeadline;
+    private DateOnly _taskdeadline;
 
     [MaxLength(64)]
     [MinLength(1)]

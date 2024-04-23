@@ -66,32 +66,50 @@
                 <Image Source="/Assets/Control/refresh.png"/>
             </Button>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" DataContext="{Binding Tasks}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <TextBlock>Сортировка по отделам:</TextBlock>
-                <ComboBox Margin="3"/>
+            <StackPanel Grid.Column="0" Margin="3">
+                <TextBlock>Фильтр по отделам:</TextBlock>
+                <ComboBox ItemsSource="{Binding DepartmentList, 
+                                                UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding FilteredDepartment,
+                                                UpdateSourceTrigger=PropertyChanged, 
+                                                Mode=TwoWay}"
+                          DisplayMemberPath="Departmentname"/>
             </StackPanel>
-            <StackPanel Grid.Column="1">
-                <TextBlock>Сортировка по продуктам:</TextBlock>
-                <ComboBox Margin="3"/>
+            <StackPanel Grid.Column="1" Margin="3">
+                <TextBlock>Фильтр по продуктам:</TextBlock>
+                <ComboBox ItemsSource="{Binding GamesList, 
+                                                UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding FilteredGame,
+                                                UpdateSourceTrigger=PropertyChanged, 
+                                                Mode=TwoWay}"
+                          DisplayMemberPath="Gamename"/>
             </StackPanel>
-            <StackPanel Grid.Column="2">
-                <TextBlock>Сортировка по группам:</TextBlock>
-                <ComboBox Margin="3"/>
+            <StackPanel Grid.Column="2" Margin="3">
+                <TextBlock>Фильтр по группам:</TextBlock>
+                <ComboBox ItemsSource="{Binding GroupsList, 
+                                                UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding FilteredGroup,
+                                                UpdateSourceTrigger=PropertyChanged, 
+                                                Mode=TwoWay}"/>
             </StackPanel>
-            <StackPanel Grid.Column="3">
-                <TextBlock>Сортировка по состоянию:</TextBlock>
-                <ComboBox Margin="3"/>
+            <StackPanel Grid.Column="3" Margin="3">
+                <TextBlock>Фильтр по состоянию:</TextBlock>
+                <ComboBox ItemsSource="{Binding StatesList, 
+                                                UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding FilteredState,
+                                                UpdateSourceTrigger=PropertyChanged, 
+                                                Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
         <DataGrid Grid.Row="3" Margin="0 2 0 0"
-              ItemsSource="{Binding Tasks.TasksList, UpdateSourceTrigger=PropertyChanged}" 
+              ItemsSource="{Binding Tasks.FilteredList, UpdateSourceTrigger=PropertyChanged}" 
               AutoGenerateColumns="False" 
               SelectionMode="Single"
               BorderBrush="White" 

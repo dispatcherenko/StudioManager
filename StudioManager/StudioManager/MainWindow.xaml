@@ -119,7 +119,10 @@
 
         <Grid Grid.Column="2">
             <TextBlock VerticalAlignment="Center" 
-                       HorizontalAlignment="Center">
+                       HorizontalAlignment="Center"
+                       Visibility="{Binding NoneVisible, 
+                                    UpdateSourceTrigger=PropertyChanged, 
+                                    Converter={StaticResource VisibilityConverter}}">   
                 Добро пожаловать в Studio Manager, выберите таблицу.
             </TextBlock>
             <uc:StaffControl 
@@ -141,6 +144,14 @@
                 Height="Auto" 
                 DataContext="{Binding}"
                 Visibility="{Binding TasksVisible, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Converter={StaticResource VisibilityConverter}}"/>
+
+            <uc:GamesControl
+                Width="Auto" 
+                Height="Auto" 
+                DataContext="{Binding}"
+                Visibility="{Binding GamesVisible, 
                             UpdateSourceTrigger=PropertyChanged, 
                             Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
