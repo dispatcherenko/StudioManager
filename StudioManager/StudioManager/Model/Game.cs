@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -44,6 +45,8 @@ public partial class Game : ObservableValidator
         get => _gamedescription;
         set => SetProperty(ref _gamedescription, value, true);
     }
+
+    public ObservableCollection<User> Users { get; set; } = new ObservableCollection<User>();
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 

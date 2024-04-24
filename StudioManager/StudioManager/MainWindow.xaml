@@ -154,6 +154,14 @@
                 Visibility="{Binding GamesVisible, 
                             UpdateSourceTrigger=PropertyChanged, 
                             Converter={StaticResource VisibilityConverter}}"/>
+            
+            <uc:UsersControl
+                Width="Auto" 
+                Height="Auto" 
+                DataContext="{Binding}"
+                Visibility="{Binding UsersVisible, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            Converter={StaticResource VisibilityConverter}}"/>  
         </Grid>
     </Grid>
 </Window>
