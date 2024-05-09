@@ -29,13 +29,27 @@
         </TextBlock>
         <Grid Grid.Row="1"  Margin="7">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Name="Refresh" 
-                    Grid.Column="1"
+                    Grid.Column="3"
                     Command="{Binding RefreshCommand}">
                 <Image Source="/Assets/Control/refresh.png"/>
+            </Button>
+            <Button Name="Save" 
+                    Grid.Column="1"
+                    Command="{Binding SaveCommand}">
+                <Image Source="/Assets/Control/save.png"/>
+            </Button>
+            <Button Name="Market" 
+                    Grid.Column="0"
+                    Command="{Binding MarketCommand}"
+                    Padding="10,0,10,0" 
+                    IsEnabled="{Binding IsUserSelected, UpdateSourceTrigger=PropertyChanged}">
+                Market
             </Button>
         </Grid>
         <Grid Grid.Row="2">

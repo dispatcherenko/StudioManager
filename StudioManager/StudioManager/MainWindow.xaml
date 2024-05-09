@@ -60,24 +60,6 @@
                 <Image Margin="5 0 0 0" Height="35" Width="35" Source="/Assets/manager.png"/>
             </StackPanel>
 
-            <Grid Grid.Row="1" Margin="0 5 0 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="1" 
-                       Source="/Assets/search.png"
-                       Height="25"
-                       Margin="-40,0,0,0" Panel.ZIndex="01"/>
-                <TextBox Grid.Column="0" 
-                         Width="Auto" 
-                         VerticalAlignment="Center" 
-                         Padding="5" 
-
-                         Margin="5 0 5 0">
-                </TextBox>
-            </Grid>
-
             <ListBox Grid.Column="0" Grid.Row="3" 
                      BorderBrush="White"
                      x:Name="ControlsListBox"

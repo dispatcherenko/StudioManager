@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Windows.Controls.Primitives;
 using System.Windows;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace StudioManager.ViewModel
 {
@@ -43,6 +44,8 @@ namespace StudioManager.ViewModel
         [ObservableProperty]
         private List<string> _groupsList = new List<string>();
         private string _filteredGroup;
+
+        private string _search;
 
         public ObservableCollection<Model.Task> TasksList
         {
@@ -92,7 +95,7 @@ namespace StudioManager.ViewModel
             set
             {
                 _filteredDepartment = value;
-                Filter(TasksList);
+                Filter();
                 OnPropertyChanged(nameof(FilteredDepartment));
             }
         }
@@ -106,8 +109,8 @@ namespace StudioManager.ViewModel
             set
             {
                 _filteredGame = value;
-                Filter(TasksList);
-                OnPropertyChanged(nameof(_filteredGame));
+                Filter();
+                OnPropertyChanged(nameof(FilteredGame));
             }
         }
 
@@ -120,8 +123,8 @@ namespace StudioManager.ViewModel
             set
             {
                 _filteredGroup = value;
-                Filter(TasksList);
-                OnPropertyChanged(nameof(_filteredGroup));
+                Filter();
+                OnPropertyChanged(nameof(FilteredGroup));
             }
         }
 
@@ -134,14 +137,32 @@ namespace StudioManager.ViewModel
             set
             {
                 _filteredState = value;
-                Filter(TasksList);
-                OnPropertyChanged(nameof(_filteredState));
+                Filter();
+                OnPropertyChanged(nameof(FilteredState));
             }
         }
+
+        public string Search
+        {
+            get => _search;
+            set 
+            {
+                _search = value;
+                Debug.WriteLine("Tasks : Searching...");
+                Find(_search);
+                OnPropertyChanged(nameof(Search));
+            }
+        }
+
 
         public TasksVM()
         {
             LoadList();
+
+            FilteredDepartment = DepartmentList[0];
+            FilteredGame = GamesList[0];
+            FilteredGroup = GroupsList[0];
+            FilteredState = StatesList[0];  
         }
 
         protected override object Validate(object obj)
@@ -165,11 +186,8 @@ namespace StudioManager.ViewModel
             using (var db = new PostgresContext())
             {
                 TasksList = new ObservableCollection<Model.Task>();
-                StatesList = new List<string>();
-                GroupsList = new List<string>();
-
-                StatesList.Add("Все");
-                GroupsList.Add("Все");
+                StatesList = new List<string>(["Все"]);
+                GroupsList = new List<string>(["Все"]);
 
                 db.Staff.Load();
 
@@ -186,9 +204,7 @@ namespace StudioManager.ViewModel
                     }
                 }
 
-                DepartmentList = new List<Department>();
-
-                DepartmentList.Add(new Department { Departmentname = "Все" });
+                DepartmentList = new List<Department>([new Department { Departmentname = "Все" }]);
 
                 db.Departments.Load();
 
@@ -197,9 +213,7 @@ namespace StudioManager.ViewModel
                     DepartmentList.Add(dep);
                 }
 
-                GamesList = new List<Game>();
-
-                GamesList.Add(new Game { Gamename = "Все" });
+                GamesList = new List<Game>([new Game { Gamename = "Все" }]);
 
                 db.Games.Load();
 
@@ -209,7 +223,8 @@ namespace StudioManager.ViewModel
                 }
             }
 
-            Filter(TasksList);
+            Filter();
+            Find("");
         }
 
         [RelayCommand]
@@ -384,9 +399,9 @@ namespace StudioManager.ViewModel
         }
 
         [RelayCommand]
-        private void Filter(ObservableCollection<Model.Task> list) 
+        private void Filter() 
         {
-            FilteredList = new ObservableCollection<Model.Task> (list);
+            FilteredList = new ObservableCollection<Model.Task>(TasksList);
 
             if (FilteredDepartment != null && FilteredDepartment.Departmentname != "Все")
             {
@@ -397,6 +412,29 @@ namespace StudioManager.ViewModel
             {
                 FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdGame == FilteredGame.IdGame));
             }
+
+            if (FilteredGroup != null && FilteredGroup != "Все")
+            {
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.Taskgroup == FilteredGroup));
+            }
+
+            if (FilteredState != null && FilteredState != "Все")
+            {
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.Taskstate == FilteredState));
+            }
+
+            Debug.WriteLine("Tasks : Filtered");
+        }
+
+        private void Find(string line)
+        {
+            FilteredList = new ObservableCollection<Model.Task>(TasksList);
+
+            if (!string.IsNullOrEmpty(line))
+            {
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.Taskname.Contains(line, StringComparison.OrdinalIgnoreCase)));
+            }
+
             Debug.WriteLine("Tasks : Filtered");
         }
     }

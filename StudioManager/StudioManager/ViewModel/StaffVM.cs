@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,12 +16,14 @@ namespace StudioManager.ViewModel
     public partial class StaffVM : ManagerPage
     {
         private ObservableCollection<Staff> _staffList;
-
         private StaffAddWindow _addWindow;
-
         private Staff _selected;
-
         private Department _selectedDepartment;
+        [ObservableProperty]
+        private byte[] _photo;
+        [ObservableProperty]
+        private List<Department> _departmentList;
+        private string _search;
 
         public Staff Selected
         {
@@ -50,6 +53,12 @@ namespace StudioManager.ViewModel
             } 
         }
 
+        public string Search
+        {
+            get => Find(_search);
+            set => SetProperty(ref _search, value);
+        }
+
         public ObservableCollection<Staff> StaffList
         {
             get
@@ -62,12 +71,6 @@ namespace StudioManager.ViewModel
                 OnPropertyChanged(nameof(StaffList));
             }
         }
-
-        [ObservableProperty]
-        private byte[] _photo;
-
-        [ObservableProperty]
-        private List<Department> _departmentList;
 
         public StaffVM()
         {
@@ -112,6 +115,11 @@ namespace StudioManager.ViewModel
                     DepartmentList.Add(dep);
                 }
             }
+        }
+
+        private string Find(string line)
+        {
+            return line;
         }
 
         private async Task<int?> GetDepartmentIdFromDatabase(Department department)

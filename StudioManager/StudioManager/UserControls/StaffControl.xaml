@@ -27,6 +27,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Name="Add" 
                     Grid.Column="0"
@@ -52,8 +54,19 @@
                     IsEnabled="{Binding Staff.CanSaveDb, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="/Assets/Control/save.png"/>
             </Button>
+            <Image Grid.Column="5" 
+                   Source="/Assets/search.png"
+                   Height="25"
+                   Margin="-40,0,0,0" Panel.ZIndex="01"/>
+            <TextBox Grid.Column="4" 
+                     Width="Auto" 
+                     VerticalAlignment="Center" 
+                     Padding="5"
+                     Margin="5 0 5 0"
+                     Text="{Binding Staff.Search}">
+            </TextBox>
             <Button Name="Refresh" 
-                    Grid.Column="5"
+                    Grid.Column="7"
                     Command="{Binding Staff.RefreshCommand}">    
                 <Image Source="/Assets/Control/refresh.png"/>
             </Button>
