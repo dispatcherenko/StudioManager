@@ -130,7 +130,7 @@
                                 Orientation="Vertical"
                                 Margin="3">
                         <TextBlock>Описание:</TextBlock>
-                        <TextBlock Text="{Binding SelectedGame.Gamedescription}"/>
+                        <TextBlock Text="{Binding SelectedGame.Gameinfo}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1" Margin="5">

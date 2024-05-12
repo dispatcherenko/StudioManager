@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace StudioManager.ViewModel
 {
@@ -44,6 +45,7 @@ namespace StudioManager.ViewModel
         {
             get
             {
+                Debug.WriteLine("переключение...");
                 return VisibilityCheck(_selectedItem);
             }
             set
@@ -64,6 +66,7 @@ namespace StudioManager.ViewModel
 
         public object VisibilityCheck(object item)
         {
+            Debug.WriteLine(item);
             var listBoxItem = item as ListBoxItem;
 
             if (listBoxItem != null && listBoxItem.Content is StackPanel stackPanel)
@@ -139,5 +142,19 @@ namespace StudioManager.ViewModel
         {
 
         }
+
+        [RelayCommand]
+        private void MoveTo(int id)
+        {
+            Debug.Write("MoveTo");
+            DepartmentsVisible = true;
+            StaffVisible =
+                TasksVisible =
+                GamesVisible =
+                NoneVisible =
+                UsersVisible = false;
+            Debug.WriteLine("Main : Switched to Departments");
+            Departments.Selected = Departments.DepartmentList.FirstOrDefault(d => d.IdDepartment == id);
+        }   
     }
 }

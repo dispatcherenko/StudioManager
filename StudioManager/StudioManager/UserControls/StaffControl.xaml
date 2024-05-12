@@ -87,6 +87,11 @@
                     <Setter Property="Padding" Value="3"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" 
+                      Command="{Binding MoveToCommand}" 
+                      CommandParameter="{Binding SelectedItem.IdDepartment, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" 
                                     Binding="{Binding IdEmployee}" 

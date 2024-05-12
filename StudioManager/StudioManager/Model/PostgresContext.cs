@@ -80,6 +80,7 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("gamename");
             entity.Property(e => e.Gamereleasedate).HasColumnName("gamereleasedate");
             entity.Property(e => e.Gamepicture).HasColumnName("gamepicture");
+            entity.Property(e => e.Gameinfo).HasColumnName("gameinfo");
         });
 
         modelBuilder.Entity<Staff>(entity =>

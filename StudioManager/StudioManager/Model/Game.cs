@@ -18,6 +18,8 @@ public partial class Game : ObservableValidator
     private string _gamename = null!;
     private string _gamegenre = null!;
     private string _gamedescription;
+    [ObservableProperty]
+    private string _gameinfo;
 
     [Required]
     [NotNull]
