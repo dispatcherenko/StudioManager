@@ -46,4 +46,7 @@ public partial class Task : ObservableValidator
     public virtual Department? IdDepartmentNavigation { get; set; }
 
     public virtual Game? IdGameNavigation { get; set; }
+
+  
+
 }

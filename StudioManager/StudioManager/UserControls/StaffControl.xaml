@@ -67,61 +67,69 @@
             </TextBox>
             <Button Name="Refresh" 
                     Grid.Column="7"
-                    Command="{Binding Staff.RefreshCommand}">    
+                    Command="{Binding Staff.RefreshCommand}">
                 <Image Source="/Assets/Control/refresh.png"/>
             </Button>
         </Grid>
-        <DataGrid Grid.Row="2" Margin="0 2 0 0"
-                  ItemsSource="{Binding Staff.StaffList, UpdateSourceTrigger=PropertyChanged}" 
-                  AutoGenerateColumns="False" 
-                  SelectionMode="Single"
-                  BorderBrush="White" 
-                  Background="White"
-                  SelectedItem="{Binding Staff.Selected}" 
-                  IsReadOnly="True">
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="BorderThickness" Value="0 1 1 1"/>
-                    <Setter Property="BorderBrush" Value="#FFD0D0D0"/>
-                    <Setter Property="Padding" Value="3"/>
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.InputBindings>
-                <MouseBinding Gesture="LeftDoubleClick" 
-                      Command="{Binding MoveToCommand}" 
-                      CommandParameter="{Binding SelectedItem.IdDepartment, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-            </DataGrid.InputBindings>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" 
-                                    Binding="{Binding IdEmployee}" 
-                                    Width="Auto" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="ID Отдела" 
-                                    Binding="{Binding IdDepartment}"  
-                                    Width="Auto" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="Полное имя" 
-                                    Binding="{Binding Employeefullname}"  
-                                    Width="*" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="Номер телефона" 
-                                    Binding="{Binding Employeephonenumber}"  
-                                    Width="*" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="Email" 
-                                    Binding="{Binding Employeeemail}"  
-                                    Width="*" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="Должность" 
-                                    Binding="{Binding Employeeposition}"  
-                                    Width="*" 
-                                    IsReadOnly="True"/>
-                <DataGridTextColumn Header="Пол" 
-                                    Binding="{Binding Employeesex}"  
-                                    Width="*" 
-                                    IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl Grid.Row="2">
+            <TabItem Header="Staff">
+                <DataGrid Grid.Row="2"
+          ItemsSource="{Binding Staff.StaffList, UpdateSourceTrigger=PropertyChanged}" 
+          AutoGenerateColumns="False" 
+          SelectionMode="Single"
+          BorderBrush="White" 
+          Background="White"
+          SelectedItem="{Binding Staff.Selected}" 
+          IsReadOnly="True">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="BorderThickness" Value="0 1 1 1"/>
+                            <Setter Property="BorderBrush" Value="#FFD0D0D0"/>
+                            <Setter Property="Padding" Value="3"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" 
+              Command="{Binding MoveToCommand}" 
+              CommandParameter="{Binding SelectedItem.IdDepartment, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                    </DataGrid.InputBindings>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" 
+                            Binding="{Binding IdEmployee}" 
+                            Width="Auto" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Отдел" 
+                            Binding="{Binding Departmentname}"  
+                            Width="Auto" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Полное имя" 
+                            Binding="{Binding Employeefullname}"  
+                            Width="*" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Номер телефона" 
+                            Binding="{Binding Employeephonenumber}"  
+                            Width="*" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Email" 
+                            Binding="{Binding Employeeemail}"  
+                            Width="*" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Должность" 
+                            Binding="{Binding Employeeposition}"  
+                            Width="*" 
+                            IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Пол" 
+                            Binding="{Binding Employeesex}"  
+                            Width="*" 
+                            IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="ContactData">
+                <ListBox ItemsSource="{Binding Staff.StaffDataList, UpdateSourceTrigger=PropertyChanged}">
+                </ListBox>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

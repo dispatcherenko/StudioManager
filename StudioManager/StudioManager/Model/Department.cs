@@ -9,6 +9,8 @@ public partial class Department : ObservableValidator
 {
     [ObservableProperty]
     private int _idDepartment;
+    [ObservableProperty]
+    private int _departmentcount;
     private string _departmentname = null!;
 
     [Required]

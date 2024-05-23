@@ -83,6 +83,9 @@
                 <DataGridTextColumn Header="Название Отдела" 
                             Binding="{Binding Departmentname}"  
                             Width="2*"/>
+                <DataGridTextColumn Header="Количество сотрудников" 
+            Binding="{Binding Departmentcount}"  
+            Width="2*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

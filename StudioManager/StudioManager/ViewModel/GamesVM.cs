@@ -23,6 +23,8 @@ namespace StudioManager.ViewModel
         private GameAddWindow _addWindow;
         [ObservableProperty]
         private DateTime _selectedDate = DateTime.Now;
+        [ObservableProperty]
+        private Game _latest;
 
         public Game SelectedGame
         {
@@ -68,6 +70,18 @@ namespace StudioManager.ViewModel
                 {
                     GamesList.Add(game);
                 }
+
+                List<Game> temp = new List<Game>(db.Games
+                    .FromSqlRaw(@"
+                        SELECT *
+                        FROM Games
+                        WHERE gamereleasedate = (
+                            SELECT MAX(gamereleasedate)
+                            FROM Games
+                        )")
+                    .ToList());
+
+                Latest = temp[0];
             }
         }
 

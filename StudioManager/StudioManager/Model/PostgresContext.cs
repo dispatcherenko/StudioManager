@@ -60,6 +60,7 @@ public partial class PostgresContext : DbContext
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'DepartmentName'::character varying")
                 .HasColumnName("departmentname");
+            entity.Property(e => e.Departmentcount).HasColumnName("departmentcount");
         });
 
         modelBuilder.Entity<Game>(entity =>
@@ -112,6 +113,9 @@ public partial class PostgresContext : DbContext
                 .HasColumnName("employeesex")
                 .IsUnicode(false);
             entity.Property(e => e.IdDepartment).HasColumnName("id_department");
+            entity.Property(e => e.Departmentname)
+                .HasMaxLength(64)
+                .HasColumnName("departmentname");
 
             entity.HasOne(d => d.IdDepartmentNavigation).WithMany(p => p.Staff)
                 .HasForeignKey(d => d.IdDepartment)

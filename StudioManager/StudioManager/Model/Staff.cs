@@ -19,6 +19,7 @@ public partial class Staff : ObservableValidator
     [ObservableProperty]
     private byte[]? _employeephoto;
     private string _employeesex = null!;
+    private string _departmentname;
 
     [Required]
     [NotNull]
@@ -62,6 +63,16 @@ public partial class Staff : ObservableValidator
     {
         get => _employeesex;
         set => SetProperty(ref _employeesex, value, true);
+    }
+
+    [Required]
+    [NotNull]
+    [MaxLength(64)]
+    [MinLength(2)]
+    public string Departmentname
+    {
+        get => _departmentname;
+        set => SetProperty(ref _departmentname, value, true);
     }
 
     public virtual Department? IdDepartmentNavigation { get; set; }

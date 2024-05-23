@@ -15,6 +15,8 @@ namespace StudioManager.ViewModel
 {
     public partial class StaffVM : ManagerPage
     {
+        [ObservableProperty]
+        private List<string> staffDataList;
         private ObservableCollection<Staff> _staffList;
         private StaffAddWindow _addWindow;
         private Staff _selected;
@@ -97,24 +99,17 @@ namespace StudioManager.ViewModel
         {
             using (var db = new PostgresContext())
             {
-                StaffList = new ObservableCollection<Staff>();
+                StaffList = new ObservableCollection<Staff>(db.Staff.FromSql($"SELECT * FROM Staff").ToList());
 
-                db.Staff.Load();
+                DepartmentList = new List<Department>(db.Departments.FromSql($"SELECT * FROM Departments").ToList());
 
-                foreach(var staff in db.Staff)
-                {
-                    StaffList.Add(staff);
-                }
+                StaffDataList = new List<string> (db.Staff
+                    .FromSql($"SELECT Employeefullname, Employeephonenumber, Employeeemail FROM Staff")
+                    .Select(s => $"{s.Employeefullname}, {s.Employeephonenumber}, {s.Employeeemail}")
+                    .ToList());
 
-                DepartmentList = new List<Department>();
-
-                db.Departments.Load();
-
-                foreach (var dep in db.Departments)
-                {
-                    DepartmentList.Add(dep);
-                }
             }
+
         }
 
         private string Find(string line)
