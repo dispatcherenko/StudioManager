@@ -25,6 +25,8 @@ namespace StudioManager.ViewModel
         private DateTime _selectedDate = DateTime.Now;
         [ObservableProperty]
         private Game _latest;
+        [ObservableProperty]
+        private Game _popular;
 
         public Game SelectedGame
         {
@@ -71,7 +73,9 @@ namespace StudioManager.ViewModel
                     GamesList.Add(game);
                 }
 
-                List<Game> temp = new List<Game>(db.Games
+
+                // Некоррелированный подзапрос
+                Latest = new List<Game>(db.Games
                     .FromSqlRaw(@"
                         SELECT *
                         FROM Games
@@ -79,9 +83,28 @@ namespace StudioManager.ViewModel
                             SELECT MAX(gamereleasedate)
                             FROM Games
                         )")
-                    .ToList());
+                    .ToList())[0];
 
-                Latest = temp[0];
+                // Коррелированный подзапрос
+                try
+                { 
+                    Popular = new List<Game>(db.Games.
+                        FromSqlRaw(@"SELECT *
+                                FROM Games g
+                                WHERE g.id_game = (
+                                    SELECT ug.id_game
+                                    FROM UserGames ug
+                                    GROUP BY ug.id_game
+                                    ORDER BY COUNT(ug.id_user) DESC
+                                    LIMIT 1
+                                );")
+                        .ToList())[0];
+                }
+                catch
+                {
+                    Popular = GamesList[0];
+                }
+
             }
         }
 
@@ -127,7 +150,7 @@ namespace StudioManager.ViewModel
                 {
                     foreach (var game in GamesList)
                     {
-                        var existingStaff = context.Games.FirstOrDefault(s => s.IdGame == game.IdGame);
+                        var existingStaff = context.Games.FirstOrDefault(s => s.Id == game.Id);
 
                         if (existingStaff != null)
                         {

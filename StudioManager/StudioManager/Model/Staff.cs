@@ -6,10 +6,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Staff : ObservableValidator
+public partial class Staff : DataBaseTable
 {
-    [ObservableProperty]
-    private int _idEmployee;
     [ObservableProperty]
     private int? _idDepartment;
     private string _employeefullname = null!;
@@ -19,7 +17,8 @@ public partial class Staff : ObservableValidator
     [ObservableProperty]
     private byte[]? _employeephoto;
     private string _employeesex = null!;
-    private string _departmentname;
+    [ObservableProperty]
+    private string? _departmentname;
 
     [Required]
     [NotNull]
@@ -63,16 +62,6 @@ public partial class Staff : ObservableValidator
     {
         get => _employeesex;
         set => SetProperty(ref _employeesex, value, true);
-    }
-
-    [Required]
-    [NotNull]
-    [MaxLength(64)]
-    [MinLength(2)]
-    public string Departmentname
-    {
-        get => _departmentname;
-        set => SetProperty(ref _departmentname, value, true);
     }
 
     public virtual Department? IdDepartmentNavigation { get; set; }

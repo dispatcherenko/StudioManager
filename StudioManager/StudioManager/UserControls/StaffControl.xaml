@@ -96,7 +96,7 @@
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" 
-                            Binding="{Binding IdEmployee}" 
+                            Binding="{Binding Id}" 
                             Width="Auto" 
                             IsReadOnly="True"/>
                         <DataGridTextColumn Header="Отдел" 

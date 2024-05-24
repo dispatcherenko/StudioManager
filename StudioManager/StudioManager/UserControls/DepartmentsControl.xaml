@@ -77,7 +77,7 @@
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" 
-                            Binding="{Binding IdDepartment}" 
+                            Binding="{Binding Id}" 
                             Width="*" 
                             IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название Отдела" 

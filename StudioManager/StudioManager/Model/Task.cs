@@ -5,10 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Task : ObservableValidator
+public partial class Task : DataBaseTable
 {
-    [ObservableProperty]
-    private int _idTask;
     [ObservableProperty]
     private int? _idDepartment;
     [ObservableProperty]

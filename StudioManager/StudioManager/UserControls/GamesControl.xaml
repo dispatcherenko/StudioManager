@@ -108,7 +108,7 @@
                         Orientation="Horizontal"
                         Margin="3">
                                 <TextBlock>ID:</TextBlock>
-                                <TextBlock Text="{Binding SelectedGame.IdGame}"/>
+                                <TextBlock Text="{Binding SelectedGame.Id}"/>
                             </StackPanel>
                             <StackPanel Grid.Row="1" 
                         Orientation="Horizontal"
@@ -169,7 +169,7 @@
                                      Orientation="Horizontal"
                                      Margin="3">
                             <TextBlock>ID:</TextBlock>
-                            <TextBlock Text="{Binding Latest.IdGame}"/>
+                            <TextBlock Text="{Binding Latest.Id}"/>
                         </StackPanel>
                         <StackPanel Grid.Row="1" 
                                      Orientation="Horizontal"
@@ -208,6 +208,66 @@
                                 Height="Auto"
                                 VerticalAlignment="Top"
                                 Margin="10 10 10 10"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Popular">
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Margin="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" 
+                         Orientation="Horizontal"
+                         Margin="3">
+                            <TextBlock>ID:</TextBlock>
+                            <TextBlock Text="{Binding Popular.Id}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" 
+                         Orientation="Horizontal"
+                         Margin="3">
+                            <TextBlock>Название:</TextBlock>
+                            <TextBlock Text="{Binding Popular.Gamename}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" 
+                         Orientation="Horizontal"
+                         Margin="3">
+                            <TextBlock>Жанр:</TextBlock>
+                            <TextBlock Text="{Binding Popular.Gamegenre}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" 
+                         Orientation="Horizontal"
+                         Margin="3">
+                            <TextBlock>Дата выхода:</TextBlock>
+                            <TextBlock Text="{Binding Popular.Gamereleasedate}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" 
+                         Orientation="Vertical"
+                         Margin="3">
+                            <TextBlock>Описание:</TextBlock>
+                            <TextBlock Text="{Binding Popular.Gameinfo}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0">Изображение:</TextBlock>
+                        <Image Grid.Row="1" 
+                    Source="{Binding Popular.Gamepicture, Converter={StaticResource BATISConverter}}"
+                    Width="250"
+                    Height="Auto"
+                    VerticalAlignment="Top"
+                    Margin="10 10 10 10"/>
                     </Grid>
                 </Grid>
             </TabItem>

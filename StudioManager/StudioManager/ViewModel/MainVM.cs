@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using StudioManager.Model;
 using StudioManager.Model.Service;
+using StudioManager.UserWindows;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,6 +28,8 @@ namespace StudioManager.ViewModel
         private GamesVM _games;
         [ObservableProperty]
         private UsersVM _users;
+        [ObservableProperty]
+        private QueryVM _query;
 
         [ObservableProperty]
         private bool _noneVisible = true;
@@ -62,6 +65,7 @@ namespace StudioManager.ViewModel
             Tasks = new TasksVM();
             Games = new GamesVM();
             Users = new UsersVM();
+            Query = new QueryVM();
         }
 
         public object VisibilityCheck(object item)
@@ -122,6 +126,10 @@ namespace StudioManager.ViewModel
                                 GamesVisible = false;
                             Debug.WriteLine("Main : Switched to Games");
                             break;
+                        case "Query":
+                            SQLQuery query = new SQLQuery();
+                            query.Show();
+                            break;
                         default:
                             NoneVisible = true;
                             StaffVisible = 
@@ -154,7 +162,7 @@ namespace StudioManager.ViewModel
                 NoneVisible =
                 UsersVisible = false;
             Debug.WriteLine("Main : Switched to Departments");
-            Departments.Selected = Departments.DepartmentList.FirstOrDefault(d => d.IdDepartment == id);
+            Departments.Selected = Departments.DepartmentList.FirstOrDefault(d => d.Id == id);
         }   
     }
 }

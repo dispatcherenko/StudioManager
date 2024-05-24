@@ -5,10 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class Department : ObservableValidator
+public partial class Department : DataBaseTable
 {
-    [ObservableProperty]
-    private int _idDepartment;
     [ObservableProperty]
     private int _departmentcount;
     private string _departmentname = null!;

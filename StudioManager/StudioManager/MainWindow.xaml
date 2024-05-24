@@ -96,6 +96,12 @@
                         <TextBlock>Пользователи</TextBlock>
                     </StackPanel>
                 </ListBoxItem>
+                <ListBoxItem x:Name="SQL">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/database.png" />
+                        <TextBlock>Query</TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
             </ListBox>
         </Grid>
 

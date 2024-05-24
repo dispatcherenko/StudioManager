@@ -7,10 +7,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StudioManager.Model;
 
-public partial class User : ObservableValidator
+public partial class User : DataBaseTable
 {
-    [ObservableProperty]
-    private int _idUser;
     private string _userlogin = null!;
     private string _userpassword = null!;
     private string _useremail = null!;

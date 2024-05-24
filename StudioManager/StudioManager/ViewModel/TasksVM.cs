@@ -263,7 +263,7 @@ namespace StudioManager.ViewModel
                 {
                     foreach (var task in TasksList)
                     {
-                        var existingTask = context.Tasks.FirstOrDefault(s => s.IdTask == task.IdTask);
+                        var existingTask = context.Tasks.FirstOrDefault(s => s.Id == task.Id);
 
                         if (existingTask != null)
                         {
@@ -294,11 +294,11 @@ namespace StudioManager.ViewModel
         {
             using (var context = new PostgresContext())
             {
-                var departmentFromDb = await context.Departments.FirstOrDefaultAsync(d => d.IdDepartment == department.IdDepartment);
+                var departmentFromDb = await context.Departments.FirstOrDefaultAsync(d => d.Id == department.Id);
 
                 if (departmentFromDb != null)
                 {
-                    return departmentFromDb.IdDepartment;
+                    return departmentFromDb.Id;
                 }
 
                 return null;
@@ -309,11 +309,11 @@ namespace StudioManager.ViewModel
         {
             using (var context = new PostgresContext())
             {
-                var gameFromDb = await context.Games.FirstOrDefaultAsync(d => d.IdGame == game.IdGame);
+                var gameFromDb = await context.Games.FirstOrDefaultAsync(d => d.Id == game.Id);
 
                 if (gameFromDb != null)
                 {
-                    return gameFromDb.IdGame;
+                    return gameFromDb.Id;
                 }
 
                 return null;
@@ -405,12 +405,12 @@ namespace StudioManager.ViewModel
 
             if (FilteredDepartment != null && FilteredDepartment.Departmentname != "Все")
             {
-                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdDepartment == FilteredDepartment.IdDepartment));
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdDepartment == FilteredDepartment.Id));
             }
 
             if (FilteredGame != null && FilteredGame.Gamename != "Все")
             {
-                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdGame == FilteredGame.IdGame));
+                FilteredList = new ObservableCollection<Model.Task>(FilteredList.Where(t => t.IdGame == FilteredGame.Id));
             }
 
             if (FilteredGroup != null && FilteredGroup != "Все")

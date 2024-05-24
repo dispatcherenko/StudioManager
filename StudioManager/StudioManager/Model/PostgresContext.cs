@@ -51,11 +51,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasKey(e => e.IdDepartment).HasName("departments_pkey");
+            entity.HasKey(e => e.Id).HasName("departments_pkey");
 
             entity.ToTable("departments");
 
-            entity.Property(e => e.IdDepartment).HasColumnName("id_department");
+            entity.Property(e => e.Id).HasColumnName("id_department");
             entity.Property(e => e.Departmentname)
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'DepartmentName'::character varying")
@@ -65,11 +65,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.IdGame).HasName("games_pkey");
+            entity.HasKey(e => e.Id).HasName("games_pkey");
 
             entity.ToTable("games");
 
-            entity.Property(e => e.IdGame).HasColumnName("id_game");
+            entity.Property(e => e.Id).HasColumnName("id_game");
             entity.Property(e => e.Gamedescription).HasColumnName("gamedescription");
             entity.Property(e => e.Gamegenre)
                 .HasMaxLength(64)
@@ -86,11 +86,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.IdEmployee).HasName("staff_pkey");
+            entity.HasKey(e => e.Id).HasName("staff_pkey");
 
             entity.ToTable("staff");
 
-            entity.Property(e => e.IdEmployee).HasColumnName("id_employee");
+            entity.Property(e => e.Id).HasColumnName("id_employee");
             entity.Property(e => e.Employeeemail)
                 .HasDefaultValueSql("'example@example.com'::character varying")
                 .HasColumnType("character varying")
@@ -124,11 +124,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Task>(entity =>
         {
-            entity.HasKey(e => e.IdTask).HasName("tasks_pkey");
+            entity.HasKey(e => e.Id).HasName("tasks_pkey");
 
             entity.ToTable("tasks");
 
-            entity.Property(e => e.IdTask).HasColumnName("id_task");
+            entity.Property(e => e.Id).HasColumnName("id_task");
             entity.Property(e => e.IdDepartment).HasColumnName("id_department");
             entity.Property(e => e.IdGame).HasColumnName("id_game");
             entity.Property(e => e.Taskgroup)
@@ -156,11 +156,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.IdUser).HasName("users_pkey");
+            entity.HasKey(e => e.Id).HasName("users_pkey");
 
             entity.ToTable("users");
 
-            entity.Property(e => e.IdUser).HasColumnName("id_user");
+            entity.Property(e => e.Id).HasColumnName("id_user");
             entity.Property(e => e.Useremail)
                 .HasMaxLength(64)
                 .HasDefaultValueSql("'example@example.com'::character varying")

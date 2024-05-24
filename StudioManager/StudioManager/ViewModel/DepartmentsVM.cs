@@ -108,6 +108,13 @@ namespace StudioManager.ViewModel
                     }
 
                     context.SaveChanges();
+
+                    context.Database.ExecuteSqlRaw(@"UPDATE Departments
+                        SET DepartmentCount = (
+                            SELECT COUNT(s.Id_Employee)
+                            FROM Staff s
+                            WHERE s.Id_Department = Departments.Id_Department
+                        );");
                 }
 
                 MessageBox.Show("Новый список сохранен.", "Сохранено!", MessageBoxButton.OK);

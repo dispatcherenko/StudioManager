@@ -150,7 +150,7 @@ namespace StudioManager.ViewModel
                     {
                         var existingUser = context.Users
                             .Include(u => u.Usergames)
-                            .FirstOrDefault(s => s.IdUser == user.IdUser);
+                            .FirstOrDefault(s => s.Id == user.Id);
 
                         if (existingUser != null)
                         {
@@ -160,9 +160,9 @@ namespace StudioManager.ViewModel
                             // Обновление связей UserGames
                             foreach (var game in user.Games)
                             {
-                                if (!existingUser.Usergames.Any(ug => ug.IdGame == game.IdGame))
+                                if (!existingUser.Usergames.Any(ug => ug.IdGame == game.Id))
                                 {
-                                    existingUser.Usergames.Add(new Usergame { IdUser = user.IdUser, IdGame = game.IdGame });
+                                    existingUser.Usergames.Add(new Usergame { IdUser = user.Id, IdGame = game.Id });
                                 }
                             }
                         }

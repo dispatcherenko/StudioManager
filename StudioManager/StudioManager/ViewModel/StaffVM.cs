@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Win32;
 using StudioManager.Model;
 using StudioManager.UserWindows;
@@ -26,6 +28,8 @@ namespace StudioManager.ViewModel
         [ObservableProperty]
         private List<Department> _departmentList;
         private string _search;
+        [ObservableProperty]
+        private string _queryString;
 
         public Staff Selected
         {
@@ -121,11 +125,11 @@ namespace StudioManager.ViewModel
         {
             using (var context = new PostgresContext())
             {
-                var departmentFromDb = await context.Departments.FirstOrDefaultAsync(d => d.IdDepartment == department.IdDepartment);
+                var departmentFromDb = await context.Departments.FirstOrDefaultAsync(d => d.Id == department.Id);
 
                 if (departmentFromDb != null)
                 {
-                    return departmentFromDb.IdDepartment;
+                    return departmentFromDb.Id;
                 }
 
                 return null;
@@ -135,33 +139,60 @@ namespace StudioManager.ViewModel
         [RelayCommand]
         private void Add()
         {
-            Photo = File.ReadAllBytes("Assets/placeholder.png");
-            CanAdd = CanEdit = CanSaveDb = false;
-            _addWindow = new StaffAddWindow(this);
-            Selected = new Staff();
-            _addWindow.Show();
+            var result = MessageBox.Show("Использовать форму для  добавления?","Способ добавления данных",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.Yes);
+            if (result == MessageBoxResult.Yes)
+            {
+                Photo = File.ReadAllBytes("Assets/placeholder.png");
+                CanAdd = CanEdit = CanSaveDb = false;
+                _addWindow = new StaffAddWindow(this);
+                Selected = new Staff();
+                _addWindow.Show();
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                QueryString = "INSERT INTO Staff (employeefullname, employeephonenumber, employeeemail, employeeposition, employeesex) " +
+                              "VALUES ('default', '1234567890', 'default@default.com', 'default', 'М');";
+                SQLForm form = new SQLForm(this);
+                form.Show();
+            }
         }
 
         [RelayCommand]
         private void Remove()
         {
-            StaffList.Remove(Selected);
-            CanAdd = true;
-            CanRemove = CanEdit = false;
+            QueryString = $"DELETE FROM Staff WHERE id_employee = {Selected.Id};";
+            SQLForm form = new SQLForm(this);
+            form.Show();
         }
 
         [RelayCommand] 
         private void Edit() 
         {
-            CanAdd = CanEdit = CanSaveDb = false;
-            _addWindow = new StaffAddWindow(this);
-            if (Selected.Employeephoto != null)
+            var result = MessageBox.Show("Использовать форму для изменения?", "Способ удаления данных",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.Yes);
+            if (result == MessageBoxResult.Yes)
             {
-                Photo = Selected.Employeephoto;
+                CanAdd = CanEdit = CanSaveDb = false;
+                _addWindow = new StaffAddWindow(this);
+                if (Selected.Employeephoto != null)
+                {
+                    Photo = Selected.Employeephoto;
+                }
+                OnPropertyChanged(nameof(Selected));
+                _addWindow.Show();
+                IsEditing = true;
             }
-            OnPropertyChanged(nameof(Selected));
-            _addWindow.Show();
-            IsEditing = true;
+            else if (result == MessageBoxResult.No)
+            {
+                QueryString = $"UPDATE Staff SET employeefullname='default' WHERE id_employee = {Selected.Id};";
+                SQLForm form = new SQLForm(this);
+                form.Show();
+            }
         }
 
         [RelayCommand]
@@ -173,7 +204,7 @@ namespace StudioManager.ViewModel
                 {
                     foreach (var staff in StaffList)
                     {
-                        var existingStaff = context.Staff.FirstOrDefault(s => s.IdEmployee == staff.IdEmployee);
+                        var existingStaff = context.Staff.FirstOrDefault(s => s.Id == staff.Id);
 
                         if (existingStaff != null)
                         {
@@ -188,6 +219,14 @@ namespace StudioManager.ViewModel
                     }
 
                     context.SaveChanges();
+
+
+                    context.Database.ExecuteSqlRaw(@"UPDATE Staff
+                        SET Departmentname = (
+                            SELECT d.Departmentname
+                            FROM Departments d
+                            WHERE d.Id_Department = Staff.Id_Department
+                        );");
                 }
 
                 MessageBox.Show("Новый список сохранен.", "Сохранено!", MessageBoxButton.OK);
@@ -198,6 +237,8 @@ namespace StudioManager.ViewModel
                 Debug.WriteLine(ex);
                 MessageBox.Show("Ошибка при сохранении списка сотрудников в базе данных. \n");
             }
+
+            Refresh();
         }
 
         [RelayCommand]
@@ -283,6 +324,25 @@ namespace StudioManager.ViewModel
         {
             LoadList();
             Debug.WriteLine("Staff : Refreshed");
+        }
+
+        [RelayCommand]
+        private async void Confirm()
+        {
+            try
+            {
+                using (var context = new PostgresContext())
+                {
+                    await context.Database.ExecuteSqlRawAsync(QueryString);
+                }
+                MessageBox.Show("Запрос выполнен успешно.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при выполнении запроса: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            Refresh();
         }
     }
 }

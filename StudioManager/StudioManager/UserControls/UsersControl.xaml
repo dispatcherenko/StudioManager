@@ -84,7 +84,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
                     <TextBlock>ID:</TextBlock>
-                    <TextBlock Text="{Binding SelectedUser.IdUser}"/>
+                    <TextBlock Text="{Binding SelectedUser.Id}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="3">
                     <TextBlock>Никнейм:</TextBlock>

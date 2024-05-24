@@ -139,7 +139,7 @@
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" 
-                                Binding="{Binding IdTask}" 
+                                Binding="{Binding Id}" 
                                 Width="Auto" 
                                 IsReadOnly="True"/>
                 <DataGridTextColumn Header="ID Отдела" 

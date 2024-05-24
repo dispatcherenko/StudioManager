@@ -7,10 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace StudioManager.Model;
 
-public partial class Game : ObservableValidator
+public partial class Game : DataBaseTable
 {
-    [ObservableProperty]
-    private int _idGame;
     [ObservableProperty]
     private byte[]? _gamepicture;
     [ObservableProperty]
